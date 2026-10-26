@@ -1,0 +1,24 @@
+
+Files:             SIMULATED_gazebo_nav_20261025_183201_0.mcap
+Bag size:          151.1 MiB
+Storage id:        mcap
+ROS Distro:        jazzy
+Duration:          63.862000000s
+Start:             Dec 31 1969 18:00:00.006000000 (0.006000000)
+End:               Dec 31 1969 18:01:03.868000000 (63.868000000)
+Messages:          46775
+Topic information: Topic: /clock | Type: rosgraph_msgs/msg/Clock | Count: 31931 | Serialization Format: cdr
+                   Topic: /sim/camera/camera_info | Type: sensor_msgs/msg/CameraInfo | Count: 639 | Serialization Format: cdr
+                   Topic: /sim/camera/image | Type: sensor_msgs/msg/Image | Count: 639 | Serialization Format: cdr
+                   Topic: /sim/cmd_vel | Type: geometry_msgs/msg/Twist | Count: 1263 | Serialization Format: cdr
+                   Topic: /sim/imu | Type: sensor_msgs/msg/Imu | Count: 6386 | Serialization Format: cdr
+                   Topic: /sim/obstacle_grid | Type: nav_msgs/msg/OccupancyGrid | Count: 128 | Serialization Format: cdr
+                   Topic: /sim/odom | Type: nav_msgs/msg/Odometry | Count: 1878 | Serialization Format: cdr
+                   Topic: /sim/planned_path | Type: nav_msgs/msg/Path | Count: 128 | Serialization Format: cdr
+                   Topic: /sim/scan | Type: sensor_msgs/msg/LaserScan | Count: 639 | Serialization Format: cdr
+                   Topic: /sim/status | Type: std_msgs/msg/String | Count: 1263 | Serialization Format: cdr
+                   Topic: /tf | Type: tf2_msgs/msg/TFMessage | Count: 1878 | Serialization Format: cdr
+                   Topic: /tf_static | Type: tf2_msgs/msg/TFMessage | Count: 3 | Serialization Format: cdr
+Service:           0
+Service information: 
+5a5f40186548d68b54ca642b4129aa5f87b05e80da6db61623754bdf040e6fed  ~/lunabotics_recordings/SIMULATED_gazebo_nav_20261025_183201/SIMULATED_gazebo_nav_20261025_183201_0.mcap

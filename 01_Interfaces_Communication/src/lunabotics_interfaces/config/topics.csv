@@ -1,0 +1,11 @@
+topic,type,frame,units,source,expected_rate_hz
+/clock,rosgraph_msgs/msg/Clock,,seconds,Gazebo,100
+/sim/cmd_vel,geometry_msgs/msg/Twist,base_link,m/s and rad/s,simulation_navigator,20
+/sim/odom,nav_msgs/msg/Odometry,odom,metres and radians,Gazebo world-pose odometry,30
+/sim/scan,sensor_msgs/msg/LaserScan,base_scan,metres,Gazebo GPU lidar,10
+/sim/imu,sensor_msgs/msg/Imu,imu_link,SI,Gazebo IMU,100
+/sim/camera/image,sensor_msgs/msg/Image,camera_link,rgb8,Gazebo camera,10
+/sim/camera/camera_info,sensor_msgs/msg/CameraInfo,camera_link,pixels,Gazebo camera,10
+/sim/status,std_msgs/msg/String,,JSON with explicitly simulated source,simulation_navigator,20
+/sim/planned_path,nav_msgs/msg/Path,odom,metres,simulation_navigator,2
+/sim/obstacle_grid,nav_msgs/msg/OccupancyGrid,odom,occupancy -1 through 100,simulation_navigator,2

@@ -1,0 +1,13 @@
+# ROS / colcon build output
+build/
+install/
+log/
+__pycache__/
+*.pyc
+
+# Recordings are too large for GitHub
+*.mcap
+*.db3
+
+# Installer output
+evidence/installed-packages.tsv

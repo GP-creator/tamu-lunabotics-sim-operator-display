@@ -1,0 +1,41 @@
+{
+  "package_paths": {
+    "lunabotics_interfaces": "01_Interfaces_Communication/src/lunabotics_interfaces",
+    "lunabotics_telemetry": "02_Ground_Station_Telemetry/src/lunabotics_telemetry",
+    "lunabotics_simulation": "MAIN/src/lunabotics_simulation",
+    "lunabotics_autonomy": "MAIN/src/lunabotics_autonomy",
+    "cdh_actuator_guard": "03_Rover_Compute_Embedded/src/cdh_actuator_guard"
+  },
+  "profiles": {
+    "interfaces": [
+      "lunabotics_interfaces",
+      "lunabotics_telemetry",
+      "lunabotics_autonomy",
+      "lunabotics_simulation"
+    ],
+    "telemetry": [
+      "lunabotics_interfaces",
+      "lunabotics_telemetry",
+      "lunabotics_autonomy",
+      "lunabotics_simulation"
+    ],
+    "embedded": [
+      "lunabotics_interfaces",
+      "lunabotics_telemetry",
+      "lunabotics_autonomy",
+      "lunabotics_simulation",
+      "cdh_actuator_guard"
+    ],
+    "main": [
+      "lunabotics_interfaces",
+      "lunabotics_telemetry",
+      "lunabotics_autonomy",
+      "lunabotics_simulation",
+      "cdh_actuator_guard"
+    ],
+    "embedded_hardware": [
+      "lunabotics_interfaces",
+      "cdh_actuator_guard"
+    ]
+  }
+}

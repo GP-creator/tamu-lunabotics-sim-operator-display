@@ -1,0 +1,74 @@
+{
+  "configById": {
+    "3D!scene": {
+      "followMode": "follow-frame",
+      "followTf": "base_link",
+      "scene": {
+        "enableStats": false
+      },
+      "transforms": {},
+      "topics": {
+        "/sim/scan": {
+          "visible": true
+        },
+        "/sim/planned_path": {
+          "visible": true
+        },
+        "/sim/obstacle_grid": {
+          "visible": true
+        }
+      }
+    },
+    "Image!camera": {
+      "imageMode": {
+        "imageTopic": "/sim/camera/image",
+        "calibrationTopic": "/sim/camera/camera_info",
+        "synchronize": false
+      }
+    },
+    "Plot!motion": {
+      "paths": [
+        {
+          "value": "/sim/cmd_vel.linear.x",
+          "enabled": true,
+          "timestampMethod": "receiveTime"
+        },
+        {
+          "value": "/sim/cmd_vel.angular.z",
+          "enabled": true,
+          "timestampMethod": "receiveTime"
+        }
+      ],
+      "xAxisVal": "timestamp",
+      "showLegend": true
+    },
+    "RawMessagesVirtual!status": {
+      "topicPath": "/sim/status",
+      "diffEnabled": false,
+      "diffMethod": "custom",
+      "diffTopicPath": "/sim/status",
+      "showFullMessage": true
+    }
+  },
+  "globalVariables": {},
+  "userNodes": {},
+  "playbackConfig": {
+    "speed": 1
+  },
+  "layout": {
+    "direction": "row",
+    "first": "3D!scene",
+    "second": {
+      "direction": "column",
+      "first": "Image!camera",
+      "second": {
+        "direction": "column",
+        "first": "RawMessagesVirtual!status",
+        "second": "Plot!motion",
+        "splitPercentage": 50
+      },
+      "splitPercentage": 45
+    },
+    "splitPercentage": 65
+  }
+}

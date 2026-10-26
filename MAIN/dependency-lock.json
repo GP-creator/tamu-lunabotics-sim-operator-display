@@ -1,0 +1,53 @@
+{
+  "reviewed_date": "2026-10-25",
+  "simulation": {
+    "ubuntu": "24.04",
+    "ros": "jazzy",
+    "gazebo": "harmonic",
+    "python": "3.12"
+  },
+  "jetson": {
+    "ubuntu": "22.04",
+    "ros": "humble",
+    "python": "3.10",
+    "simulation_on_jetson": false
+  },
+  "lichtblick": {
+    "version": "v1.30.0",
+    "assets": [
+      {
+        "name": "lichtblick-1.30.0-linux-amd64.deb",
+        "url": "https://github.com/lichtblick-suite/lichtblick/releases/download/v1.30.0/lichtblick-1.30.0-linux-amd64.deb",
+        "sha256": "9ab2ce2a148886b7b92e2d43e5e841692192f677d1feae0df95f2b1ee388ab8e",
+        "bytes": 138145708
+      },
+      {
+        "name": "lichtblick-1.30.0-linux-arm64.deb",
+        "url": "https://github.com/lichtblick-suite/lichtblick/releases/download/v1.30.0/lichtblick-1.30.0-linux-arm64.deb",
+        "sha256": "e523048f420e438188aee8276736f8cbe3a16df62988a34698dce5971a18183b",
+        "bytes": 133372012
+      },
+      {
+        "name": "lichtblick-1.30.0-win.exe",
+        "url": "https://github.com/lichtblick-suite/lichtblick/releases/download/v1.30.0/lichtblick-1.30.0-win.exe",
+        "sha256": "14cc33e138c14ca92da5c7816f4f32053cf2a218737d1d377cadf50ae47f4c23",
+        "bytes": 284032494
+      }
+    ]
+  },
+  "ros_apt_source": {
+    "version": "1.3.0",
+    "assets": [
+      {
+        "name": "ros2-apt-source_1.3.0.jammy_all.deb",
+        "url": "https://github.com/ros-infrastructure/ros-apt-source/releases/download/1.3.0/ros2-apt-source_1.3.0.jammy_all.deb",
+        "sha256": "110b9a462d55252decb8b7c816f61c2ba0d9890ce5fb93ac504e97cae5860d76"
+      },
+      {
+        "name": "ros2-apt-source_1.3.0.noble_all.deb",
+        "url": "https://github.com/ros-infrastructure/ros-apt-source/releases/download/1.3.0/ros2-apt-source_1.3.0.noble_all.deb",
+        "sha256": "f31d84adf5054c7d60ded0e82c0f776a77ea33af53d08f40b9ad7c94cca55296"
+      }
+    ]
+  }
+}

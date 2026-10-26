@@ -1,0 +1,637 @@
+{
+  "configById": {
+    "3D!scene": {
+      "followMode": "follow-pose",
+      "followTf": "odom",
+      "scene": {
+        "enableStats": false
+      },
+      "transforms": {
+        "frame:odom": {
+          "visible": true
+        },
+        "frame:base_link": {
+          "visible": true
+        },
+        "frame:base_scan": {
+          "visible": false
+        },
+        "frame:camera_link": {
+          "visible": false
+        },
+        "frame:imu_link": {
+          "visible": false
+        }
+      },
+      "topics": {
+        "/sim/scan": {
+          "visible": true,
+          "pointSize": 5,
+          "pointShape": "circle",
+          "colorMode": "flat",
+          "flatColor": "#ff1744ff",
+          "decayTime": 0
+        },
+        "/sim/planned_path": {
+          "visible": true,
+          "type": "line",
+          "lineWidth": 0.06,
+          "gradient": [
+            "#00e5ffff",
+            "#00e5ffff"
+          ]
+        },
+        "/sim/obstacle_grid": {
+          "visible": true,
+          "colorMode": "custom",
+          "minColor": "#43a04733",
+          "maxColor": "#ff9100ff",
+          "unknownColor": "#00000000",
+          "invalidColor": "#ff00ffff",
+          "alpha": 0.8,
+          "frameLocked": false
+        },
+        "/studio_script/rover_footprint": {
+          "visible": true
+        }
+      },
+      "lichtblickPanelTitle": "Map, planned path, LiDAR (SIMULATED)",
+      "cameraState": {
+        "distance": 9,
+        "perspective": true,
+        "phi": 40,
+        "thetaOffset": 0,
+        "target": [
+          0,
+          0,
+          0
+        ],
+        "targetOffset": [
+          3.95,
+          2.2,
+          0
+        ],
+        "targetOrientation": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "fovy": 45,
+        "near": 0.5,
+        "far": 5000
+      },
+      "layers": {
+        "arena-grid": {
+          "layerId": "foxglove.Grid",
+          "instanceId": "arena-grid",
+          "label": "Arena grid (1 m)",
+          "visible": true,
+          "frameLocked": true,
+          "frameId": "odom",
+          "size": 8,
+          "divisions": 8,
+          "lineWidth": 1,
+          "color": "#9e9e9e80",
+          "position": [
+            3.95,
+            2.2,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "order": 1
+        }
+      },
+      "publish": {
+        "type": "point",
+        "poseTopic": "/operator_display/click_disabled/pose",
+        "pointTopic": "/operator_display/click_disabled/point",
+        "poseEstimateTopic": "/operator_display/click_disabled/pose_estimate",
+        "poseEstimateXDeviation": 0.5,
+        "poseEstimateYDeviation": 0.5,
+        "poseEstimateThetaDeviation": 0.26179939
+      }
+    },
+    "Image!camera": {
+      "imageMode": {
+        "imageTopic": "/sim/camera/image",
+        "calibrationTopic": "/sim/camera/camera_info",
+        "synchronize": false
+      },
+      "lichtblickPanelTitle": "Camera (SIMULATED) /sim/camera/image",
+      "publish": {
+        "type": "point",
+        "poseTopic": "/operator_display/click_disabled/pose",
+        "pointTopic": "/operator_display/click_disabled/point",
+        "poseEstimateTopic": "/operator_display/click_disabled/pose_estimate",
+        "poseEstimateXDeviation": 0.5,
+        "poseEstimateYDeviation": 0.5,
+        "poseEstimateThetaDeviation": 0.26179939
+      }
+    },
+    "Indicator!mission_state": {
+      "lichtblickPanelTitle": "MISSION STATE",
+      "path": "/studio_script/mission_status.state",
+      "style": "background",
+      "rules": [
+        {
+          "operator": "=",
+          "rawValue": "navigating",
+          "color": "#2e7d32",
+          "label": "NAVIGATING"
+        },
+        {
+          "operator": "=",
+          "rawValue": "complete",
+          "color": "#1565c0",
+          "label": "COMPLETE: goal reached"
+        },
+        {
+          "operator": "=",
+          "rawValue": "paused",
+          "color": "#f9a825",
+          "label": "PAUSED: navigation paused"
+        },
+        {
+          "operator": "=",
+          "rawValue": "waiting_for_sensors",
+          "color": "#f9a825",
+          "label": "WAITING FOR SENSORS"
+        },
+        {
+          "operator": "=",
+          "rawValue": "obstacle_stop",
+          "color": "#c62828",
+          "label": "OBSTACLE STOP"
+        },
+        {
+          "operator": "=",
+          "rawValue": "no_observed_path",
+          "color": "#c62828",
+          "label": "NO PATH TO GOAL"
+        },
+        {
+          "operator": "=",
+          "rawValue": "invalid_clock",
+          "color": "#c62828",
+          "label": "INVALID CLOCK"
+        },
+        {
+          "operator": "=",
+          "rawValue": "status_stale",
+          "color": "#c62828",
+          "label": "STATE NOT CURRENT: status stale"
+        },
+        {
+          "operator": "=",
+          "rawValue": "unparseable_status",
+          "color": "#c62828",
+          "label": "STATUS UNREADABLE"
+        }
+      ],
+      "fallbackColor": "#616161",
+      "fallbackLabel": "UNAVAILABLE: no /sim/status"
+    },
+    "Indicator!warning": {
+      "lichtblickPanelTitle": "WARNINGS",
+      "path": "/studio_script/mission_status.warning",
+      "style": "background",
+      "rules": [
+        {
+          "operator": "=",
+          "rawValue": "OK",
+          "color": "#2e7d32",
+          "label": "No warnings"
+        },
+        {
+          "operator": "=",
+          "rawValue": "STATUS_STALE",
+          "color": "#c62828",
+          "label": "STATUS STALE: no /sim/status for over 1 s"
+        },
+        {
+          "operator": "=",
+          "rawValue": "STATUS_UNREADABLE",
+          "color": "#c62828",
+          "label": "STATUS UNREADABLE: /sim/status is not valid JSON"
+        },
+        {
+          "operator": "=",
+          "rawValue": "INVALID_CLOCK",
+          "color": "#c62828",
+          "label": "INVALID CLOCK: sim time not valid"
+        },
+        {
+          "operator": "=",
+          "rawValue": "OBSTACLE_STOP",
+          "color": "#c62828",
+          "label": "OBSTACLE STOP: obstacle too close"
+        },
+        {
+          "operator": "=",
+          "rawValue": "NO_PATH",
+          "color": "#c62828",
+          "label": "NO PATH: planner found no route"
+        },
+        {
+          "operator": "=",
+          "rawValue": "SCAN_STALE",
+          "color": "#c62828",
+          "label": "LIDAR STALE/MISSING: no scan within 0.5 s"
+        },
+        {
+          "operator": "=",
+          "rawValue": "POSE_STALE",
+          "color": "#c62828",
+          "label": "POSE STALE/MISSING: no pose within 0.5 s"
+        },
+        {
+          "operator": "=",
+          "rawValue": "WAITING_FOR_SENSORS",
+          "color": "#f9a825",
+          "label": "WAITING: no fresh LiDAR/pose yet"
+        },
+        {
+          "operator": "=",
+          "rawValue": "PAUSED",
+          "color": "#f9a825",
+          "label": "PAUSED: navigation paused"
+        },
+        {
+          "operator": "=",
+          "rawValue": "UNLABELLED_SOURCE",
+          "color": "#f9a825",
+          "label": "SOURCE NOT LABELLED SIMULATED"
+        }
+      ],
+      "fallbackColor": "#616161",
+      "fallbackLabel": "UNAVAILABLE: no warning input"
+    },
+    "Indicator!data_origin": {
+      "lichtblickPanelTitle": "DATA ORIGIN",
+      "path": "/studio_script/mission_status.data_origin",
+      "style": "background",
+      "rules": [
+        {
+          "operator": "=",
+          "rawValue": "SIMULATED",
+          "color": "#6a1b9a",
+          "label": "SIMULATED (Gazebo)"
+        },
+        {
+          "operator": "=",
+          "rawValue": "UNLABELLED",
+          "color": "#f9a825",
+          "label": "SOURCE NOT LABELLED"
+        }
+      ],
+      "fallbackColor": "#616161",
+      "fallbackLabel": "UNAVAILABLE: no source label"
+    },
+    "Indicator!lidar": {
+      "lichtblickPanelTitle": "LiDAR (/sim/scan)",
+      "path": "/studio_script/mission_status.scan",
+      "style": "bulb",
+      "rules": [
+        {
+          "operator": "=",
+          "rawValue": "OK",
+          "color": "#2e7d32",
+          "label": "LiDAR OK"
+        },
+        {
+          "operator": "=",
+          "rawValue": "STALE",
+          "color": "#c62828",
+          "label": "LiDAR STALE"
+        },
+        {
+          "operator": "=",
+          "rawValue": "NO_DATA",
+          "color": "#616161",
+          "label": "LiDAR NO DATA"
+        }
+      ],
+      "fallbackColor": "#616161",
+      "fallbackLabel": "LiDAR UNAVAILABLE"
+    },
+    "Indicator!pose": {
+      "lichtblickPanelTitle": "Pose (/sim/odom)",
+      "path": "/studio_script/mission_status.pose",
+      "style": "bulb",
+      "rules": [
+        {
+          "operator": "=",
+          "rawValue": "OK",
+          "color": "#2e7d32",
+          "label": "Pose OK"
+        },
+        {
+          "operator": "=",
+          "rawValue": "STALE",
+          "color": "#c62828",
+          "label": "Pose STALE"
+        },
+        {
+          "operator": "=",
+          "rawValue": "NO_DATA",
+          "color": "#616161",
+          "label": "Pose NO DATA"
+        }
+      ],
+      "fallbackColor": "#616161",
+      "fallbackLabel": "Pose UNAVAILABLE"
+    },
+    "Indicator!camera": {
+      "lichtblickPanelTitle": "Camera (/sim/camera/image)",
+      "path": "/studio_script/camera_health.camera",
+      "style": "bulb",
+      "rules": [
+        {
+          "operator": "=",
+          "rawValue": "OK",
+          "color": "#2e7d32",
+          "label": "Camera OK"
+        },
+        {
+          "operator": "=",
+          "rawValue": "STALE",
+          "color": "#c62828",
+          "label": "Camera STALE"
+        },
+        {
+          "operator": "=",
+          "rawValue": "NO_DATA",
+          "color": "#616161",
+          "label": "Camera NO DATA"
+        }
+      ],
+      "fallbackColor": "#616161",
+      "fallbackLabel": "Camera UNAVAILABLE"
+    },
+    "Indicator!status_link": {
+      "lichtblickPanelTitle": "Status link (/sim/status)",
+      "path": "/studio_script/mission_status.status_link",
+      "style": "bulb",
+      "rules": [
+        {
+          "operator": "=",
+          "rawValue": "OK",
+          "color": "#2e7d32",
+          "label": "Status OK"
+        },
+        {
+          "operator": "=",
+          "rawValue": "STALE",
+          "color": "#c62828",
+          "label": "Status STALE"
+        },
+        {
+          "operator": "=",
+          "rawValue": "NO_DATA",
+          "color": "#616161",
+          "label": "Status NO DATA"
+        }
+      ],
+      "fallbackColor": "#616161",
+      "fallbackLabel": "Status UNAVAILABLE"
+    },
+    "Indicator!battery": {
+      "lichtblickPanelTitle": "Battery",
+      "path": "/studio_script/mission_status.battery",
+      "style": "background",
+      "rules": [
+        {
+          "operator": "=",
+          "rawValue": "NO_INPUT",
+          "color": "#616161",
+          "label": "Battery: UNAVAILABLE (no topic)"
+        }
+      ],
+      "fallbackColor": "#616161",
+      "fallbackLabel": "Battery: UNAVAILABLE (no topic)"
+    },
+    "Indicator!estop": {
+      "lichtblickPanelTitle": "E-stop",
+      "path": "/studio_script/mission_status.estop",
+      "style": "background",
+      "rules": [
+        {
+          "operator": "=",
+          "rawValue": "NO_INPUT",
+          "color": "#616161",
+          "label": "E-stop: UNAVAILABLE (no topic)"
+        }
+      ],
+      "fallbackColor": "#616161",
+      "fallbackLabel": "E-stop: UNAVAILABLE (no topic)"
+    },
+    "Indicator!faults": {
+      "lichtblickPanelTitle": "Faults",
+      "path": "/studio_script/mission_status.faults",
+      "style": "background",
+      "rules": [
+        {
+          "operator": "=",
+          "rawValue": "NO_INPUT",
+          "color": "#616161",
+          "label": "Faults: UNAVAILABLE (no topic)"
+        }
+      ],
+      "fallbackColor": "#616161",
+      "fallbackLabel": "Faults: UNAVAILABLE (no topic)"
+    },
+    "StateTransitions!timeline": {
+      "lichtblickPanelTitle": "Mission state and warnings over time",
+      "isSynced": true,
+      "paths": [
+        {
+          "value": "/studio_script/mission_status.state",
+          "label": "Mission state",
+          "enabled": true,
+          "timestampMethod": "receiveTime"
+        },
+        {
+          "value": "/studio_script/mission_status.warning",
+          "label": "Warning",
+          "enabled": true,
+          "timestampMethod": "receiveTime"
+        }
+      ]
+    },
+    "Plot!motion": {
+      "paths": [
+        {
+          "value": "/sim/cmd_vel.linear.x",
+          "enabled": true,
+          "timestampMethod": "receiveTime",
+          "label": "linear.x (m/s)"
+        },
+        {
+          "value": "/sim/cmd_vel.angular.z",
+          "enabled": true,
+          "timestampMethod": "receiveTime",
+          "label": "angular.z (rad/s)"
+        }
+      ],
+      "xAxisVal": "timestamp",
+      "showLegend": true,
+      "lichtblickPanelTitle": "Commanded speed (SIMULATED navigator)"
+    },
+    "Plot!data_age": {
+      "lichtblickPanelTitle": "Data age (s): red warning above 0.5 s LiDAR/pose, 2 s camera",
+      "paths": [
+        {
+          "value": "/studio_script/mission_status.status_age_s",
+          "label": "status",
+          "enabled": true,
+          "timestampMethod": "receiveTime"
+        },
+        {
+          "value": "/studio_script/mission_status.scan_age_s",
+          "label": "LiDAR",
+          "enabled": true,
+          "timestampMethod": "receiveTime"
+        },
+        {
+          "value": "/studio_script/mission_status.pose_age_s",
+          "label": "pose",
+          "enabled": true,
+          "timestampMethod": "receiveTime"
+        },
+        {
+          "value": "/studio_script/camera_health.camera_age_s",
+          "label": "camera",
+          "enabled": true,
+          "timestampMethod": "receiveTime"
+        }
+      ],
+      "minYValue": 0,
+      "maxYValue": 3,
+      "xAxisVal": "timestamp",
+      "showLegend": true
+    },
+    "RawMessagesVirtual!status": {
+      "topicPath": "/sim/status",
+      "diffEnabled": false,
+      "diffMethod": "custom",
+      "diffTopicPath": "/sim/status",
+      "showFullMessage": true,
+      "lichtblickPanelTitle": "Raw /sim/status (SIMULATED navigator JSON)"
+    },
+    "SourceInfo!source": {
+      "lichtblickPanelTitle": "Data source: topics, types, start/end time"
+    },
+    "Tab!main": {
+      "activeTabIdx": 0,
+      "tabs": [
+        {
+          "title": "Operator",
+          "layout": {
+            "direction": "column",
+            "first": {
+              "direction": "row",
+              "first": "Indicator!mission_state",
+              "second": {
+                "direction": "row",
+                "first": "Indicator!warning",
+                "second": "Indicator!data_origin",
+                "splitPercentage": 65
+              },
+              "splitPercentage": 35
+            },
+            "second": {
+              "direction": "column",
+              "first": {
+                "direction": "row",
+                "first": "3D!scene",
+                "second": {
+                  "direction": "column",
+                  "first": "Image!camera",
+                  "second": {
+                    "direction": "column",
+                    "first": {
+                      "direction": "row",
+                      "first": "Indicator!lidar",
+                      "second": "Indicator!pose",
+                      "splitPercentage": 50
+                    },
+                    "second": {
+                      "direction": "row",
+                      "first": "Indicator!camera",
+                      "second": "Indicator!status_link",
+                      "splitPercentage": 50
+                    },
+                    "splitPercentage": 50
+                  },
+                  "splitPercentage": 68
+                },
+                "splitPercentage": 58
+              },
+              "second": {
+                "direction": "row",
+                "first": "StateTransitions!timeline",
+                "second": {
+                  "direction": "row",
+                  "first": "Plot!data_age",
+                  "second": {
+                    "direction": "row",
+                    "first": "Plot!motion",
+                    "second": {
+                      "direction": "column",
+                      "first": "Indicator!battery",
+                      "second": {
+                        "direction": "column",
+                        "first": "Indicator!estop",
+                        "second": "Indicator!faults",
+                        "splitPercentage": 50
+                      },
+                      "splitPercentage": 33
+                    },
+                    "splitPercentage": 62
+                  },
+                  "splitPercentage": 40
+                },
+                "splitPercentage": 32
+              },
+              "splitPercentage": 70
+            },
+            "splitPercentage": 15
+          }
+        },
+        {
+          "title": "Details (raw status, source)",
+          "layout": {
+            "direction": "row",
+            "first": "RawMessagesVirtual!status",
+            "second": "SourceInfo!source",
+            "splitPercentage": 55
+          }
+        }
+      ]
+    }
+  },
+  "globalVariables": {},
+  "userNodes": {
+    "operator-mission_status": {
+      "name": "mission_status",
+      "sourceCode": "// Mission status for the operator display (display only: nothing is sent to ROS).\n// Parses the JSON in /sim/status and derives one warning code for the Indicator panels.\n// /tf is used only as a heartbeat so a silent /sim/status is reported as STATUS_STALE.\n// Thresholds: pose/scan 0.5 s match simulation_navigation.py; status 1.0 s is display-only.\n\nexport const inputs = [\"/sim/status\", \"/tf\"];\nexport const output = \"/studio_script/mission_status\";\n\ntype Time = { sec: number; nsec: number };\ntype InputEvent = { topic: string; receiveTime: Time; message: any };\n\ntype MissionStatus = {\n  state: string;\n  data_origin: string;\n  warning: string;\n  status_link: string;\n  scan: string;\n  pose: string;\n  status_age_s: number;\n  scan_age_s: number;\n  pose_age_s: number;\n  simulation_time_s: number;\n  battery: string;\n  estop: string;\n  faults: string;\n};\n\nconst STATUS_STALE_S = 1.0;\nconst SCAN_STALE_S = 0.5;\nconst POSE_STALE_S = 0.5;\n// The navigator reports ~1e9 s before a sensor's first message.\nconst NEVER_RECEIVED_S = 1e6;\n\nlet lastStatus: any = undefined;\nlet lastStatusTime: number | undefined = undefined;\n\nfunction seconds(t: Time): number {\n  return t.sec + t.nsec * 1e-9;\n}\n\nfunction freshness(age: unknown, limit: number): string {\n  if (typeof age !== \"number\" || !isFinite(age) || age >= NEVER_RECEIVED_S) {\n    return \"NO_DATA\";\n  }\n  return age >= 0 && age <= limit ? \"OK\" : \"STALE\";\n}\n\nfunction warningFor(state: string, link: string, scan: string, pose: string, origin: string): string {\n  if (link !== \"OK\") return \"STATUS_STALE\";\n  if (state === \"unparseable_status\") return \"STATUS_UNREADABLE\";\n  if (state === \"invalid_clock\") return \"INVALID_CLOCK\";\n  if (state === \"obstacle_stop\") return \"OBSTACLE_STOP\";\n  if (state === \"no_observed_path\") return \"NO_PATH\";\n  // Before the first scan/pose the navigator waits; only data that arrived and then aged is stale.\n  const waiting = state === \"waiting_for_sensors\";\n  if (scan === \"STALE\" || (scan === \"NO_DATA\" && !waiting)) return \"SCAN_STALE\";\n  if (pose === \"STALE\" || (pose === \"NO_DATA\" && !waiting)) return \"POSE_STALE\";\n  if (waiting) return \"WAITING_FOR_SENSORS\";\n  if (state === \"paused\") return \"PAUSED\";\n  if (origin !== \"SIMULATED\") return \"UNLABELLED_SOURCE\";\n  return \"OK\";\n}\n\nexport default function script(event: InputEvent): MissionStatus | undefined {\n  const now = seconds(event.receiveTime);\n  if (event.topic === \"/sim/status\") {\n    try {\n      lastStatus = JSON.parse(event.message.data);\n      lastStatusTime = now;\n    } catch {\n      lastStatus = { state: \"unparseable_status\" };\n      lastStatusTime = now;\n    }\n  }\n  if (lastStatusTime === undefined) {\n    return undefined;\n  }\n  if (now < lastStatusTime) {\n    // Playback was moved backwards; wait for the next status message.\n    lastStatus = undefined;\n    lastStatusTime = undefined;\n    return undefined;\n  }\n\n  const statusAge = now - lastStatusTime;\n  const link = statusAge <= STATUS_STALE_S ? \"OK\" : \"STALE\";\n  const origin = lastStatus.source === \"gazebo_simulation\" ? \"SIMULATED\" : \"UNLABELLED\";\n  const scan = freshness(lastStatus.scan_age_s, SCAN_STALE_S);\n  const pose = freshness(lastStatus.pose_age_s, POSE_STALE_S);\n  const reported = typeof lastStatus.state === \"string\" ? lastStatus.state : \"unknown\";\n  const state = link === \"OK\" ? reported : \"status_stale\";\n\n  return {\n    state,\n    data_origin: origin,\n    warning: warningFor(reported, link, scan, pose, origin),\n    status_link: link,\n    scan,\n    pose,\n    status_age_s: statusAge,\n    scan_age_s: typeof lastStatus.scan_age_s === \"number\" ? lastStatus.scan_age_s : -1,\n    pose_age_s: typeof lastStatus.pose_age_s === \"number\" ? lastStatus.pose_age_s : -1,\n    simulation_time_s: typeof lastStatus.simulation_time_s === \"number\" ? lastStatus.simulation_time_s : -1,\n    // No battery, E-stop or fault topic exists yet; these panels must read UNAVAILABLE.\n    battery: \"NO_INPUT\",\n    estop: \"NO_INPUT\",\n    faults: \"NO_INPUT\",\n  };\n}\n"
+    },
+    "operator-camera_health": {
+      "name": "camera_health",
+      "sourceCode": "// Camera freshness for the operator display (display only: nothing is sent to ROS).\n// /tf is used only as a heartbeat so a camera that stops is reported as STALE.\n// 2.0 s matches camera_timeout in lunabotics_autonomy/autonomy/types.py.\n\nexport const inputs = [\"/sim/camera/image\", \"/tf\"];\nexport const output = \"/studio_script/camera_health\";\n\ntype Time = { sec: number; nsec: number };\ntype InputEvent = { topic: string; receiveTime: Time; message: any };\n\ntype CameraHealth = {\n  camera: string;\n  camera_age_s: number;\n};\n\nconst CAMERA_STALE_S = 2.0;\n\nlet lastImageTime: number | undefined = undefined;\n\nfunction seconds(t: Time): number {\n  return t.sec + t.nsec * 1e-9;\n}\n\nexport default function script(event: InputEvent): CameraHealth | undefined {\n  const now = seconds(event.receiveTime);\n  if (event.topic === \"/sim/camera/image\") {\n    lastImageTime = now;\n  }\n  if (lastImageTime === undefined) {\n    return { camera: \"NO_DATA\", camera_age_s: -1 };\n  }\n  if (now < lastImageTime) {\n    // Playback was moved backwards; wait for the next image.\n    lastImageTime = undefined;\n    return { camera: \"NO_DATA\", camera_age_s: -1 };\n  }\n  const age = now - lastImageTime;\n  return { camera: age <= CAMERA_STALE_S ? \"OK\" : \"STALE\", camera_age_s: age };\n}\n"
+    },
+    "operator-rover_footprint": {
+      "name": "rover_footprint",
+      "sourceCode": "// Rover footprint for the 3D panel (display only: nothing is sent to ROS).\n// The 3D panel cannot draw nav_msgs/Odometry, so each /sim/odom message produces a box\n// attached to base_link. Size is the simulated chassis (arena.sdf: 0.65 x 0.45 x 0.16 m\n// at z = 0.25 m); these are development values, not measured rover dimensions.\n\nimport { Message } from \"./types\";\nimport { buildRosMarker, MarkerTypes } from \"./markers\";\n\nexport const inputs = [\"/sim/odom\"];\nexport const output = \"/studio_script/rover_footprint\";\n\ntype Time = { sec: number; nsec: number };\ntype InputEvent = { topic: string; receiveTime: Time; message: any };\ntype Marker = Message<\"visualization_msgs/Marker\">;\n\nexport default function script(event: InputEvent): Marker {\n  return buildRosMarker({\n    header: { frame_id: \"base_link\", stamp: event.receiveTime, seq: 0 },\n    ns: \"sim_rover_footprint\",\n    id: 0,\n    type: MarkerTypes.CUBE,\n    action: 0,\n    frame_locked: true,\n    pose: {\n      position: { x: 0, y: 0, z: 0.25 },\n      orientation: { x: 0, y: 0, z: 0, w: 1 },\n    },\n    scale: { x: 0.65, y: 0.45, z: 0.16 },\n    color: { r: 1.0, g: 0.6, b: 0.0, a: 0.6 },\n  });\n}\n"
+    }
+  },
+  "playbackConfig": {
+    "speed": 1
+  },
+  "layout": "Tab!main"
+}

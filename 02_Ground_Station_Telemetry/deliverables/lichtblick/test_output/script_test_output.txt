@@ -1,0 +1,63 @@
+
+## mission_status: recording as-is  (outputs=3140)
+     0.05s state=waiting_for_sensors warning=WAITING_FOR_SENSORS status_link=OK scan=NO_DATA pose=OK data_origin=SIMULATED
+     0.39s state=navigating warning=OK status_link=OK scan=OK pose=OK data_origin=SIMULATED
+     1.25s state=waiting_for_sensors warning=SCAN_STALE status_link=OK scan=STALE pose=OK data_origin=SIMULATED
+     1.41s state=navigating warning=OK status_link=OK scan=OK pose=OK data_origin=SIMULATED
+    37.10s state=complete warning=OK status_link=OK scan=OK pose=OK data_origin=SIMULATED
+
+## camera_health: recording as-is  (outputs=2517)
+     0.01s camera=OK
+
+## A: /sim/status stops at 20 s  (outputs=2262)
+     0.05s state=waiting_for_sensors warning=WAITING_FOR_SENSORS status_link=OK scan=NO_DATA pose=OK data_origin=SIMULATED
+     0.39s state=navigating warning=OK status_link=OK scan=OK pose=OK data_origin=SIMULATED
+     1.25s state=waiting_for_sensors warning=SCAN_STALE status_link=OK scan=STALE pose=OK data_origin=SIMULATED
+     1.41s state=navigating warning=OK status_link=OK scan=OK pose=OK data_origin=SIMULATED
+    20.98s state=status_stale warning=STATUS_STALE status_link=STALE scan=OK pose=OK data_origin=SIMULATED
+
+## B: camera stops at 30 s  (outputs=2178)
+     0.01s camera=OK
+    31.93s camera=STALE
+
+## C: camera never publishes  (outputs=1878)
+     0.03s camera=NO_DATA
+
+## D: seek back 40 s -> 10 s (mission_status)  (outputs=2058)
+     0.05s state=waiting_for_sensors warning=WAITING_FOR_SENSORS status_link=OK scan=NO_DATA pose=OK data_origin=SIMULATED
+     0.39s state=navigating warning=OK status_link=OK scan=OK pose=OK data_origin=SIMULATED
+     1.25s state=waiting_for_sensors warning=SCAN_STALE status_link=OK scan=STALE pose=OK data_origin=SIMULATED
+     1.41s state=navigating warning=OK status_link=OK scan=OK pose=OK data_origin=SIMULATED
+    37.10s state=complete warning=OK status_link=OK scan=OK pose=OK data_origin=SIMULATED
+    10.00s state=navigating warning=OK status_link=OK scan=OK pose=OK data_origin=SIMULATED
+
+## D: seek back 40 s -> 10 s (camera_health)  (outputs=1654)
+     0.01s camera=OK
+
+## E: injected obstacle_stop  (outputs=2)
+    50.00s state=obstacle_stop warning=OBSTACLE_STOP status_link=OK scan=OK pose=OK data_origin=SIMULATED
+
+## E: injected no_observed_path  (outputs=2)
+    50.00s state=no_observed_path warning=NO_PATH status_link=OK scan=OK pose=OK data_origin=SIMULATED
+
+## E: injected invalid_clock  (outputs=2)
+    50.00s state=invalid_clock warning=INVALID_CLOCK status_link=OK scan=OK pose=OK data_origin=SIMULATED
+
+## E: injected paused  (outputs=2)
+    50.00s state=paused warning=PAUSED status_link=OK scan=OK pose=OK data_origin=SIMULATED
+
+## E: injected scan stale 0.8 s  (outputs=2)
+    50.00s state=navigating warning=SCAN_STALE status_link=OK scan=STALE pose=OK data_origin=SIMULATED
+
+## E: injected pose never received  (outputs=2)
+    50.00s state=navigating warning=POSE_STALE status_link=OK scan=OK pose=NO_DATA data_origin=SIMULATED
+
+## E: injected unlabelled source  (outputs=2)
+    50.00s state=navigating warning=UNLABELLED_SOURCE status_link=OK scan=OK pose=OK data_origin=UNLABELLED
+
+## E: unparseable status  (outputs=1)
+     1.00s state=unparseable_status warning=STATUS_UNREADABLE status_link=OK scan=NO_DATA pose=NO_DATA data_origin=UNLABELLED
+
+## F: /tf only, no status  (outputs=0)
+
+## rover_footprint sample: {"frame":"base_link","type":1,"frame_locked":true,"scale":{"x":0.65,"y":0.45,"z":0.16},"z":0.25}

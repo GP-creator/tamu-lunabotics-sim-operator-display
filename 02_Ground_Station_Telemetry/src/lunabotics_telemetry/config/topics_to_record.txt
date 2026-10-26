@@ -1,0 +1,12 @@
+/clock
+/tf
+/tf_static
+/sim/odom
+/sim/scan
+/sim/imu
+/sim/camera/image
+/sim/camera/camera_info
+/sim/cmd_vel
+/sim/planned_path
+/sim/obstacle_grid
+/sim/status

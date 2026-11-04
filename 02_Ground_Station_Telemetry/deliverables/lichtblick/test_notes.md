@@ -79,3 +79,7 @@ Run `SIMULATED_pdr_20261104_112151` contains a real `no_observed_path` event (19
 12. **Recording is 63.9 s**, slightly over the 60 s target, because the recorder ran 65 s from sim start.
 13. **3D camera angle and colours** were set from source defaults, not seen on screen; adjust during test 9 if needed.
 14. The Gazebo log prints `gz_frame_id … not defined in SDF` warnings for the three sensors; frames still come through correctly (`base_scan`, `camera_link`, `imu_link`).
+
+## Layout revision for readability (2026-11-04)
+
+Four health lights combined into one compact row under the top row; Battery/E-stop/Faults moved to the Details tab as "Rover-only (not in simulation)"; map panel enlarged (≈ 42 % of the Operator tab, was ≈ 34 %) with a top-down orthographic default view centred on the arena (3.95, 2.2) at 6 m view height; bottom row limited to three panels (timeline + two plots) with plot legends collapsed by default. Camera settings follow LichtBlick 1.30.0 `CameraStateSettings.ts` (orthographic: distance = visible height); not yet checked on screen. `tools/validate_layout.py`: **PASS** (18 panels, 3 scripts, 12 topics). Panel → topic table regenerated in `panel_topics.md`; slide figure in `pdr/figures/layout_diagram.png`.

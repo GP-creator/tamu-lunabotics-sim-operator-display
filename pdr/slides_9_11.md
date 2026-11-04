@@ -13,8 +13,8 @@ Owners: Gadadhar + Alice Choi. ~2 min per slide.
 **Bullets**
 - **Selected design:** LichtBlick 1.30.0 (pinned, SHA-256 checked) with one versioned layout file. Live view over Rosbridge `ws://localhost:9090`; offline replay from MCAP with no ROS needed.
 - **SRR baseline:** LichtBlick is the operator display selected at SRR; unchanged since.
-- **Panels:** 18 panels / 3 display-only scripts / 12 topics; every topic exists in the sim (layout validator PASS). Mission state + warnings sit in the top row.
-- **Warning logic:** from `/sim/status`, LiDAR or pose older than 0.5 s, camera older than 2 s (thresholds from the autonomy code), status silent for over 1 s; obstacle stop, no path, invalid clock. Battery/E-stop/faults show **UNAVAILABLE** (no topic yet).
+- **Panels:** 18 panels / 3 display-only scripts / 12 topics; every topic exists in the sim (layout validator PASS). Mission state + warnings across the top, one compact row of health lights, then the map (largest panel, top-down view fitted to the arena) beside the camera, and three panels at the bottom. Panel → topic table: `02_Ground_Station_Telemetry/deliverables/lichtblick/panel_topics.md`.
+- **Warning logic:** from `/sim/status`, LiDAR or pose older than 0.5 s, camera older than 2 s (thresholds from the autonomy code), status silent for over 1 s; obstacle stop, no path, invalid clock. Battery/E-stop/faults sit in the Details tab as **Rover-only (not in simulation)** and show UNAVAILABLE.
 - **Safe by design:** display only. No Teleop/Publish panels; click-to-publish redirected to inert topics.
 
 **Figures/tables**
@@ -23,7 +23,7 @@ Owners: Gadadhar + Alice Choi. ~2 min per slide.
 - Versions (ENV): Ubuntu 24.04.5, ROS 2 Jazzy (ros-base 0.11.0), Gazebo Harmonic (gz_sim_vendor 0.0.13), ros_gz 1.0.24, rosbridge_server 2.7.1, rosbag2 + MCAP 0.26.11, LichtBlick 1.30.0.
 
 **Speaker notes (~2 min)**
-> Our ground station is LichtBlick 1.30.0 with one layout file that we version-control. It connects live over Rosbridge, or opens a recorded MCAP file with no ROS install at all, which is how Vin can review runs on any laptop. LichtBlick is the display we selected at SRR, and that choice hasn't changed. The layout puts mission state and warnings across the top, so the operator sees what the rover is doing and whether anything is wrong at a glance. Warnings come from the navigator's own status message, with the same 0.5-second staleness limits the autonomy code uses. Anything we don't have a topic for yet (battery, E-stop, faults) is shown as UNAVAILABLE rather than blank. It's display-only: no panel can send commands, and we redirected the click-to-publish tool so a stray click can't send a goal. This merges Alice's dashboard: her transform preloading, plot settings and her troubleshooting from a live test on macOS.
+> Our ground station is LichtBlick 1.30.0 with one layout file that we version-control. It connects live over Rosbridge, or opens a recorded MCAP file with no ROS install at all, which is how Vin can review runs on any laptop. LichtBlick is the display we selected at SRR, and that choice hasn't changed. The layout puts mission state and warnings across the top, so the operator sees what the rover is doing and whether anything is wrong at a glance. Warnings come from the navigator's own status message, with the same 0.5-second staleness limits the autonomy code uses. Below that is one row of health lights, and the map gets most of the screen, zoomed to fit the arena. Battery, E-stop and faults don't exist in simulation, so they live in a Details tab marked rover-only and show UNAVAILABLE rather than blank. It's display-only: no panel can send commands, and we redirected the click-to-publish tool so a stray click can't send a goal. This merges Alice's dashboard: her transform preloading, plot settings and her troubleshooting from a live test on macOS.
 
 ---
 

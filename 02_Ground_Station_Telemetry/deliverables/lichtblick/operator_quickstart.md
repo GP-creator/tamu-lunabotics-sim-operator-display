@@ -37,7 +37,7 @@ LichtBlick shows the file name or `ws://localhost:9090` at the top of the window
 1. Choose **View → Import layout from file…**.
 2. Select `02_Ground_Station_Telemetry/deliverables/lichtblick/lichtblick_layout.json`.
 
-The **Operator** tab opens. The **Details** tab has the raw status message and a list of topics.
+The **Operator** tab opens. The **Details** tab has the raw status message, a list of topics and the rover-only indicators.
 
 ## 4. What each panel means
 
@@ -49,13 +49,14 @@ Top row: check these first.
 | **WARNINGS** | The most important current problem, or "No warnings" (green). See section 5. |
 | **DATA ORIGIN** | **SIMULATED (Gazebo)** in purple when the data is labelled as simulated. Yellow means the source is not labelled. |
 
+Second row, **health lights** (LiDAR, Pose, Camera, Status link): green = fresh, red = stale, grey = no data.
+
 Middle:
 
 | Panel | Shows |
 | --- | --- |
-| **Map, planned path, LiDAR** | Top view of the arena (1 m grid). Red dots: LiDAR hits. Orange cells: obstacles the rover has seen. Faint green cells: seen free space. Cyan line: planned path. Orange box: rover (simulated chassis size). Drag to rotate; scroll to zoom. |
+| **Map, planned path, LiDAR** | The largest panel: a top-down view of the whole arena (1 m grid). Red dots: LiDAR hits. Orange cells: obstacles the rover has seen. Faint green cells: seen free space. Cyan line: planned path. Orange box: rover (simulated chassis size). Scroll to zoom, drag to move; the **3D** button on the panel's right edge switches to a tilted view. |
 | **Camera** | The rover's front camera. |
-| **LiDAR / Pose / Camera / Status link lights** | Green: fresh. Red: stale. Grey: no data. |
 
 Bottom:
 
@@ -64,7 +65,12 @@ Bottom:
 | **Mission state and warnings over time** | A timeline of state and warning changes. |
 | **Data age** | How old each input is, in seconds. Higher means older. |
 | **Commanded speed** | Speed and turn rate the simulated navigator is **commanding**, not measured speed. A flat line after COMPLETE is normal. |
-| **Battery / E-stop / Faults** | Always grey **UNAVAILABLE**. No topic exists for these yet. |
+
+The two plots start with their legend hidden; click the list icon in the plot's corner to show it.
+
+**Details tab:** raw `/sim/status` message, the data source's topic list, and **Rover-only (not in simulation): Battery / E-stop / Faults**. These are always grey **UNAVAILABLE** because no topic exists for them yet.
+
+Which topic feeds each panel: `panel_topics.md`.
 
 If a panel says **UNAVAILABLE**, **NO DATA** or "Waiting for…", its input is missing. This is not a display fault.
 
@@ -96,7 +102,7 @@ Troubleshooting from Alice Choi's live test, plus our own.
 | 3D panel says `Missing transform from frame <base_scan> to frame <base_link>` | Wait a few seconds after the sim starts, then reconnect: **File → Open connection… → Rosbridge** again. This cleared it in Alice's test (workaround; cause not confirmed). |
 | Camera blank | Check the Camera light. If it is grey, `/sim/camera/image` isn't publishing; don't change the panel. |
 | Speed plot flat | Check MISSION STATE. After COMPLETE the rover is meant to stop. |
-| Battery / E-stop / Faults grey | Expected: no input exists yet. |
+| Battery / E-stop / Faults grey (Details tab) | Expected: no input exists yet. |
 
 ## 7. Stop and close
 

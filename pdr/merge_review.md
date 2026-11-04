@@ -21,7 +21,7 @@
 | Camera panel | `/sim/camera/image` + `camera_info` | Same | **Keep mine** | Identical topics; mine adds a "SIMULATED" title |
 | Raw status | Details tab | Main screen | **Keep mine** | Mission state is parsed into indicators on the main screen; raw JSON is for debugging |
 | Warning panel | Rules for 11 warning codes from `/sim/status` | Placeholder on `/sim/status.data`, no rules | **Keep mine** | Alice's is explicitly a non-functional placeholder (her notes say so) |
-| Motion plot | `cmd_vel` linear.x/angular.z | Same | **Combine** | Same data; took Alice's `isSynced: true`, floating legend and axis labels |
+| Motion plot | `cmd_vel` linear.x/angular.z | Same | **Combine** | Same data; took Alice's `isSynced: true`, floating legend and axis labels (legend now collapsed by default, 2026-11-04 revision) |
 | Data age plot | status/LiDAR/pose/camera ages | — | **Keep mine** | Not in Alice's |
 | Thresholds | pose/LiDAR 0.5 s, camera 2 s (from autonomy code), status 1 s | none | **Keep mine** | Alice's has no thresholds |
 | Message schemas | `std_msgs/String` (JSON), LaserScan, Path, OccupancyGrid, Image, CameraInfo, Twist, Odometry, TF | Same minus Odometry | **Keep mine** | No schema conflicts |

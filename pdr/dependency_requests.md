@@ -11,6 +11,8 @@ From Gadadhar + Alice. Current numbers are SIMULATION only; sources in `pdr/evid
 5. **`/rosout` in `topics_to_record.txt`:** without it, a Log panel is empty on replay.
 6. **Remote viewing:** the Rosbridge launch binds to `127.0.0.1`. If the operator laptop is a different machine, how will it reach Rosbridge (bind address, SSH forward, VPN)?
 
+7. **Deliverable names:** the spec asks the display pair for `record_replay.sh` and `topics_to_record.txt`, which are Robin's names too (T04). Ours are thin wrappers in `02_Ground_Station_Telemetry/deliverables/lichtblick/` around `tools/record_simulation.sh` and the canonical `src/lunabotics_telemetry/config/topics_to_record.txt` (symlink, no copy). **Please confirm with us which file is canonical** before both pairs submit, so the team ends up with one recorder and one topic list.
+
 ## Sameer + Zosia (Jetson compute and storage)
 
 1. **Compute headroom** on the Jetson for `rosbridge_server` and `ros2 bag record`. Laptop measurements (24 cores, CPU % of one core; `SIMULATED_pdr_20261104_124956`): rosbridge ≈ 107 % with LichtBlick connected (≈ 114 % with LichtBlick + measurement probe), 100.6 MB RSS; recorder 35.7 % mean / 43.8 % max, 84.9 MB RSS. At that load Rosbridge delivered `/clock` at 434 of 500 Hz.

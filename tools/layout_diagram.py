@@ -49,6 +49,8 @@ def describe(pid, config, layout, types):
         code = script['sourceCode']
         inputs = json.loads(re.search(r'inputs\s*=\s*(\[[^\]]*\])', code).group(1))
         scripts[re.search(r'output\s*=\s*"([^"]+)"', code).group(1)] = (script['name'], inputs)
+    if pid.startswith('SourceInfo!'):
+        return ['LichtBlick data source + connection state (built-in, no topic)']
     if str(config.get('path', '')).rsplit('.', 1)[-1] in ('battery', 'estop', 'faults'):
         return ['no input topic → UNAVAILABLE']
     lines = []
@@ -60,6 +62,21 @@ def describe(pid, config, layout, types):
         else:
             lines.append(f'{topic} → {types.get(topic, "?").split("/")[-1]}')
     return list(dict.fromkeys(lines))
+
+
+def panel_table(layout_path, types=None):
+    """Markdown table: tab, panel title, panel type, topic -> message type."""
+    layout = json.loads(Path(layout_path).read_text())
+    configs = layout['configById']
+    types = types or topic_types()
+    tabs = configs['Tab!main']['tabs'] if 'Tab!main' in configs else [{'title': 'Layout', 'layout': layout['layout']}]
+    rows = ['| Tab | Panel | Type | Topic → message type |', '| --- | --- | --- | --- |']
+    for tab in tabs:
+        for pid, *_ in geometry(tab['layout']):
+            body = '; '.join(line.strip() for line in describe(pid, configs[pid], layout, types))
+            title = configs[pid].get('lichtblickPanelTitle', pid.split('!')[1])
+            rows.append(f"| {tab['title'].split(' ')[0]} | {title} | {pid.split('!')[0]} | {body.replace('← ;', '←')} |")
+    return '\n'.join(rows)+'\n'
 
 
 def layout_figure(layout_path, out):
@@ -153,11 +170,19 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument('--layout', default=str(LICHTBLICK/'lichtblick_layout.json'))
     ap.add_argument('--out-dir', type=Path, default=ROOT/'pdr/figures')
+    ap.add_argument('--table', type=Path, default=LICHTBLICK/'panel_topics.md',
+                    help='Markdown panel -> topic table to write')
+    ap.add_argument('--figure-name', default='layout_diagram.png')
     args = ap.parse_args()
     args.out_dir.mkdir(parents=True, exist_ok=True)
-    layout_figure(args.layout, args.out_dir/'layout_diagram.png')
+    layout_figure(args.layout, args.out_dir/args.figure_name)
     data_path_figure(args.out_dir/'data_path.png')
-    print('wrote', args.out_dir/'layout_diagram.png', 'and', args.out_dir/'data_path.png')
+    args.table.write_text(
+        '# Panel → topic → message type\n\n'
+        f'Generated from `{Path(args.layout).name}` by `tools/layout_diagram.py`; do not edit by hand. '
+        '"script X ←" means the panel shows LichtBlick User Script X, which reads the listed ROS topics '
+        'and publishes nothing to ROS.\n\n' + panel_table(args.layout))
+    print('wrote', args.out_dir/args.figure_name, args.out_dir/'data_path.png', 'and', args.table)
 
 
 if __name__ == '__main__':

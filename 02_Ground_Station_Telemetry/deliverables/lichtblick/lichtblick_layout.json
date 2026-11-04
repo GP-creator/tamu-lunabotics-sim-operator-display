@@ -559,19 +559,24 @@
               "direction": "column",
               "first": {
                 "direction": "row",
-                "first": {
-                  "direction": "row",
-                  "first": "Indicator!lidar",
-                  "second": "Indicator!pose",
-                  "splitPercentage": 50
-                },
+                "first": "SourceInfo!connection",
                 "second": {
                   "direction": "row",
-                  "first": "Indicator!camera",
-                  "second": "Indicator!status_link",
+                  "first": {
+                    "direction": "row",
+                    "first": "Indicator!lidar",
+                    "second": "Indicator!pose",
+                    "splitPercentage": 50
+                  },
+                  "second": {
+                    "direction": "row",
+                    "first": "Indicator!camera",
+                    "second": "Indicator!status_link",
+                    "splitPercentage": 50
+                  },
                   "splitPercentage": 50
                 },
-                "splitPercentage": 50
+                "splitPercentage": 24
               },
               "second": {
                 "direction": "column",
@@ -594,7 +599,7 @@
                 },
                 "splitPercentage": 74
               },
-              "splitPercentage": 8
+              "splitPercentage": 11
             },
             "splitPercentage": 11
           }
@@ -624,6 +629,9 @@
           }
         }
       ]
+    },
+    "SourceInfo!connection": {
+      "lichtblickPanelTitle": "CONNECTION: source / live state (built-in)"
     }
   },
   "globalVariables": {},

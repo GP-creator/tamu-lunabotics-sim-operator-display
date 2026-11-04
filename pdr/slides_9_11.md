@@ -1,6 +1,6 @@
-# PDR slides 9–11: LichtBlick (CDH ground station)
+# PDR slides 9–11: LichtBlick (CDH-S2 display/recorder element)
 
-Owners: Gadadhar + Alice Choi. ~2 min per slide.
+Owners: Alice Choi + Gadadhar Parasa. ~2 min per slide. Controls and stop testing are not part of this element.
 
 **Labels:** everything here is **SIMULATION** (live Gazebo) or **REPLAY** (MCAP of a SIMULATION run). There is no rover data until Nov 5.
 
@@ -8,14 +8,15 @@ Owners: Gadadhar + Alice Choi. ~2 min per slide.
 
 ---
 
-## Slide 9: LichtBlick layout and software specification
+## Slide 9: LichtBlick layout and software specification (CDH-S2 display/recorder element)
 
 **Bullets**
-- **Selected design:** LichtBlick 1.30.0 (pinned, SHA-256 checked) with one versioned layout file. Live view over Rosbridge `ws://localhost:9090`; offline replay from MCAP with no ROS needed.
+- **Selected design (CDH-S2 display/recorder element):** LichtBlick 1.30.0 (pinned, SHA-256 checked) with one versioned layout file. Live view over Rosbridge `ws://localhost:9090`; offline replay from MCAP with no ROS needed.
 - **SRR baseline:** LichtBlick is the operator display selected at SRR; unchanged since.
-- **Panels:** 18 panels / 3 display-only scripts / 12 topics; every topic exists in the sim (layout validator PASS). Mission state + warnings across the top, one compact row of health lights, then the map (largest panel, top-down view fitted to the arena) beside the camera, and three panels at the bottom. Panel → topic table: `02_Ground_Station_Telemetry/deliverables/lichtblick/panel_topics.md`.
+- **Panels:** 19 panels / 3 display-only scripts / 12 topics; every topic exists in the sim (layout validator PASS). Mission state + warnings across the top, then **CONNECTION** (source name / "Waiting for connection…") beside the health lights, then the map (largest panel, top-down view fitted to the arena) beside the camera, and three panels at the bottom. Panel → topic table: `02_Ground_Station_Telemetry/deliverables/lichtblick/panel_topics.md`.
 - **Warning logic:** from `/sim/status`, LiDAR or pose older than 0.5 s, camera older than 2 s (thresholds from the autonomy code), status silent for over 1 s; obstacle stop, no path, invalid clock. Battery/E-stop/faults sit in the Details tab as **Rover-only (not in simulation)** and show UNAVAILABLE.
-- **Safe by design:** display only. No Teleop/Publish panels; click-to-publish redirected to inert topics.
+- **Lost data:** on a dropped link LichtBlick freezes panels at their last values (no timer in a layout), so CONNECTION sits next to every health light; stale topics on a live link turn their light red via `/tf` heartbeat.
+- **Safe by design:** display only. No Teleop/Publish panels; click-to-publish redirected to inert topics. A second layout (`lichtblick_layout_gnc2027.json`) uses the GNC-2027 topics.
 
 **Figures/tables**
 - Main: `01_live_navigating.png` (OBS frame, see `pdr/screenshot_manifest.md`); `pdr/figures/layout_diagram.png` (panel → topic → type) beside it or as backup.
@@ -24,7 +25,7 @@ Owners: Gadadhar + Alice Choi. ~2 min per slide.
 - Versions (ENV): Ubuntu 24.04.5, ROS 2 Jazzy (ros-base 0.11.0), Gazebo Harmonic (gz_sim_vendor 0.0.13), ros_gz 1.0.24, rosbridge_server 2.7.1, rosbag2 + MCAP 0.26.11, LichtBlick 1.30.0.
 
 **Speaker notes (~2 min)**
-> Our ground station is LichtBlick 1.30.0 with one layout file that we version-control. It connects live over Rosbridge, or opens a recorded MCAP file with no ROS install at all, which is how Vin can review runs on any laptop. LichtBlick is the display we selected at SRR, and that choice hasn't changed. The layout puts mission state and warnings across the top, so the operator sees what the rover is doing and whether anything is wrong at a glance. Warnings come from the navigator's own status message, with the same 0.5-second staleness limits the autonomy code uses. Below that is one row of health lights, and the map gets most of the screen, zoomed to fit the arena. Battery, E-stop and faults don't exist in simulation, so they live in a Details tab marked rover-only and show UNAVAILABLE rather than blank. It's display-only: no panel can send commands, and we redirected the click-to-publish tool so a stray click can't send a goal. This merges Alice's dashboard: her transform preloading, plot settings and her troubleshooting from a live test on macOS.
+> Our ground station is LichtBlick 1.30.0 with one layout file that we version-control. It connects live over Rosbridge, or opens a recorded MCAP file with no ROS install at all, which is how Vin can review runs on any laptop. LichtBlick is the display we selected at SRR, and that choice hasn't changed. The layout puts mission state and warnings across the top, so the operator sees what the rover is doing and whether anything is wrong at a glance. Warnings come from the navigator's own status message, with the same 0.5-second staleness limits the autonomy code uses. Next to the health lights is a connection panel: if the link drops, LichtBlick freezes every panel at its last value, so that panel saying 'Waiting for connection' is how the operator knows the lights are no longer live. Then the map gets most of the screen, zoomed to fit the arena. Battery, E-stop and faults don't exist in simulation, so they live in a Details tab marked rover-only and show UNAVAILABLE rather than blank. It's display-only: no panel can send commands, and we redirected the click-to-publish tool so a stray click can't send a goal. This merges Alice's dashboard: her transform preloading, plot settings and her troubleshooting from a live test on macOS.
 
 ---
 
@@ -79,6 +80,17 @@ The probe/LichtBlick split comes from time windows in one run (estimate). Laptop
 ---
 
 ## Slide 11: LichtBlick run evidence
+
+**Requirement check (CDH-S2 display/recorder element)**: pass criterion: the operator can load the layout, connect live, identify source/mode/freshness, recognize lost data (a frozen value must not look live and healthy), and replay a saved recording.
+
+| Requirement | Observed outcome | Label | Status | Evidence |
+| --- | --- | --- | --- | --- |
+| Load layout | Merged layout imports and renders in LichtBlick 1.30.0 (desktop, Linux); validator PASS (19 panels, 12 topics); revised layout used for the PDR screenshots | SIMULATION | PASS (app import); revised layout on screen: confirm with screenshots | `pdr/evidence/LICHTBLICK_APP_layout_import_2026-11-04/`, `screenshot_manifest.md` |
+| Connect live | LichtBlick on `ws://localhost:9090` during run 124956; all layout topics delivered at 96–99 % of recorded rate except `/clock` (87 %) | SIMULATION | PASS (data); OBS video | `E0/summary.md` live parity, OBS video |
+| Identify source / mode / freshness | CONNECTION shows `ws://…` or the `.mcap` name; DATA ORIGIN SIMULATED; health lights + Data age | SIMULATION, REPLAY | PENDING visual (fault-test baseline shot) | `pdr/evidence/fault_tests.md` |
+| Recognize lost data | Fault tests A (link lost), B (camera missing), C (stale status) | SIMULATION | PENDING visual | `pdr/evidence/fault_tests.md` |
+| Replay saved recording | MCAP replayed on isolated domain: 11 topics, 0 losses, stamps identical; opened in LichtBlick for screenshots 04–06; `record_replay.sh replay` (ros2 bag play) delivers over Rosbridge | REPLAY | PASS (data); visual: screenshots 04–06 | `E0/summary.md` replay parity, `evidence_location.md` |
+| Same five on the rover | — | EXISTING-ROVER (TBD) | **PENDING (Vin)**: same run ID for rover footage and MCAP | `evidence_location.md` |
 
 **Run metadata** (all SIMULATION; E0–E4 `summary.json`)
 
@@ -140,8 +152,7 @@ The probe/LichtBlick split comes from time windows in one run (estimate). Laptop
 | 8 | Navigator 20 Hz timer jitter (gaps up to 0.396 s headless, 0.668 s under desktop load) | GNC / MAIN (TBD) |
 | 9 | Rosbridge CPU on the Jetson: ≈ 1 core on the laptop with LichtBlick connected; consider dropping `/clock` from the live view or throttling it | Sameer + Zosia, Gadadhar |
 | 10 | Run `verify_mcap.py` on Vin's Nov 5 data and fill the slide 11 placeholder | Gadadhar + Alice |
-| 11 | Keyboard-control prototype (separate from this display-only work) | Gadadhar (later) |
-| 12 | Battery, E-stop and fault topics so those panels stop showing UNAVAILABLE | Embedded (TBD) |
+| 11 | Battery, E-stop and fault topics so those panels stop showing UNAVAILABLE | Embedded (TBD) |
 
 ---
 

@@ -41,8 +41,8 @@ For pause, recording, replay and troubleshooting, open `MAIN/README.md` inside t
 
 ## Send to Vin
 
-- **Alice:** `lichtblick_layout.json`, `lichtblick_quickstart.md`, a screenshot and test notes.
-- **Gadadhar:** `controls.md`, `stop_test_plan.md`, changed code/config files if needed, and test output.
+- **Alice + Gadadhar (CDH-S2 display/recorder element):** `lichtblick_layout.json`, `lichtblick_quickstart.md`, `record_replay.sh`, `topics_to_record.txt`, screenshots, fault-test and replay evidence (`deliverables/lichtblick/`, `pdr/`).
+- Controls and stop testing (`controls.md`, `stop_test_plan.md`) are no longer this pair's deliverables.
 - Include a short README explaining how to open, run and stop your work.
 
 Label simulated and recorded data. If a panel has no input, show it as unavailable. Leave physical control and stopping measurements for Vin at LASR.

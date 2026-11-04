@@ -70,12 +70,24 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument('layout', nargs='?', type=Path, default=LICHTBLICK/'lichtblick_layout.json')
     ap.add_argument('--rover-only', type=Path, default=LICHTBLICK/'rover_only_topics.txt')
+    ap.add_argument('--known', type=Path, action='append', default=[],
+                    help='extra topic list (same format as rover_only_topics.txt), labelled by file name')
+    ap.add_argument('--no-sim', action='store_true',
+                    help='do not treat simulation topics as available (e.g. for the GNC-2027 layout)')
     ap.add_argument('--json', type=Path, help='also write the report as JSON')
     args = ap.parse_args()
 
     layout = json.loads(args.layout.read_text())
     configs = layout['configById']
-    sim, rover = sim_topics(), rover_only_topics(args.rover_only)
+    sim, rover = (set() if args.no_sim else sim_topics()), rover_only_topics(args.rover_only)
+    known = {path.stem: rover_only_topics(path) for path in args.known}
+
+    def availability(topic):
+        if topic in sim:
+            return 'sim-available'
+        if topic in rover:
+            return 'rover-only'
+        return next((f'in {label}' for label, names in known.items() if topic in names), 'UNKNOWN')
     problems = []
 
     placed = leaves(layout['layout'])
@@ -100,23 +112,20 @@ def main():
             if topic.startswith(SCRIPT_PREFIX):
                 status = 'script output' if topic in scripts else 'NO SCRIPT PRODUCES THIS'
                 used_outputs.add(topic)
-            elif topic in sim:
-                status = 'sim-available'
-            elif topic in rover:
-                status = 'rover-only'
             else:
-                status = 'UNKNOWN'
+                status = availability(topic)
             rows.append((pid, topic, status))
     for output, script in scripts.items():
         for topic in script['inputs']:
-            status = 'sim-available' if topic in sim else 'rover-only' if topic in rover else 'UNKNOWN'
+            status = availability(topic)
             rows.append((f"script:{script['name']}", topic, status))
         if output not in used_outputs:
             problems.append(f"script {script['name']} output {output} is not used by any panel")
 
     for where, topic, status in rows:
         if status in ('UNKNOWN', 'NO SCRIPT PRODUCES THIS'):
-            near = difflib.get_close_matches(topic, sorted(sim | rover | set(scripts)), n=1, cutoff=0.8)
+            candidates = sim | rover | set(scripts) | set().union(*known.values())
+            near = difflib.get_close_matches(topic, sorted(candidates), n=1, cutoff=0.8)
             hint = f' (typo of {near[0]}?)' if near else ''
             problems.append(f'{where}: {topic} is {status}{hint}')
 

@@ -79,11 +79,21 @@ def panel_table(layout_path, types=None):
     return '\n'.join(rows)+'\n'
 
 
-def layout_figure(layout_path, out):
+def types_from_list(path):
+    """topic -> type from a topic list file ('<topic> <type> ...', # comments)."""
+    types = {}
+    for line in Path(path).read_text().splitlines():
+        parts = line.split()
+        if len(parts) >= 2 and not parts[0].startswith('#'):
+            types[parts[0]] = parts[1]
+    return types
+
+
+def layout_figure(layout_path, out, types=None):
     layout = json.loads(Path(layout_path).read_text())
     configs = layout['configById']
     operator = configs['Tab!main']['tabs'][0]['layout'] if 'Tab!main' in configs else layout['layout']
-    types = topic_types()
+    types = types or topic_types()
     plt.rcParams.update({'font.family': 'DejaVu Sans'})
     fig = plt.figure(figsize=(13.333, 7.5), dpi=150)
     ax = fig.add_axes([0.01, 0.01, 0.98, 0.9])
@@ -173,15 +183,17 @@ def main():
     ap.add_argument('--table', type=Path, default=LICHTBLICK/'panel_topics.md',
                     help='Markdown panel -> topic table to write')
     ap.add_argument('--figure-name', default='layout_diagram.png')
+    ap.add_argument('--topic-types', type=Path, help='topic list with types (e.g. gnc2027_topics.txt)')
     args = ap.parse_args()
     args.out_dir.mkdir(parents=True, exist_ok=True)
-    layout_figure(args.layout, args.out_dir/args.figure_name)
+    types = topic_types() | (types_from_list(args.topic_types) if args.topic_types else {})
+    layout_figure(args.layout, args.out_dir/args.figure_name, types)
     data_path_figure(args.out_dir/'data_path.png')
     args.table.write_text(
         '# Panel → topic → message type\n\n'
         f'Generated from `{Path(args.layout).name}` by `tools/layout_diagram.py`; do not edit by hand. '
         '"script X ←" means the panel shows LichtBlick User Script X, which reads the listed ROS topics '
-        'and publishes nothing to ROS.\n\n' + panel_table(args.layout))
+        'and publishes nothing to ROS.\n\n' + panel_table(args.layout, types))
     print('wrote', args.out_dir/args.figure_name, args.out_dir/'data_path.png', 'and', args.table)
 
 

@@ -18,16 +18,15 @@ Run the installer that appears in your Downloads folder. The repo uses LichtBlic
 
 **A. Open the recording (no ROS or Gazebo needed)**
 
-1. Copy the recording file to the Windows laptop:
-   `SIMULATED_gazebo_nav_20261025_183201_0.mcap` (151 MB, 64 s, simulated).
+1. Copy a recording to the Windows laptop, e.g. `SIMULATED_pdr_20261104_112346_0.mcap` (106 MB, 42.5 s, simulated; recordings are named `SIMULATED_…`).
 2. In LichtBlick, choose **File → Open local file(s)…** and select the `.mcap` file.
 3. Press the play button at the bottom. The clock reads around **1 January 1970**. This is expected: the recording uses simulation time, which starts at zero.
 
 **B. Connect to a running simulation**
 
-1. Start the simulation in Ubuntu (WSL) as described in `02_Ground_Station_Telemetry/README.md`. Leave that terminal open.
-2. In LichtBlick, choose **File → Open connection…**, then **Rosbridge**.
-3. Enter `ws://localhost:9090` and choose **Open**.
+1. In LichtBlick, choose **File → Open connection…**, then **Rosbridge**.
+2. Enter `ws://localhost:9090` and choose **Open**. If the simulation isn't running yet, LichtBlick keeps retrying every 3 s.
+3. In Ubuntu (WSL), from the repo folder, run `bash tools/run_pdr_demo.sh` and press Enter when asked. The simulation starts, is recorded, and stops by itself when the rover reaches its goal.
 
 To view from **another computer**, use `ws://<ubuntu-ip>:9090`. This only works if Rosbridge listens on that network. The team launch binds it to `127.0.0.1` (this computer only), so remote viewing needs a launch change. Alice used a temporary bridge on her VM's address for her macOS test.
 

@@ -12,12 +12,13 @@ A trimmed copy of the TAMU Lunabotics CDH ground-station work. It contains only 
 
 | Path | What it is |
 | --- | --- |
-| `02_Ground_Station_Telemetry/deliverables/lichtblick/` | **The operator display:** layout, operator quickstart, test notes, screenshot list |
+| `02_Ground_Station_Telemetry/deliverables/lichtblick/` | **The operator display:** layout (merged with Alice Choi's dashboard), operator quickstart, test notes |
+| `pdr/` | **PDR slides 9–11 package:** slide text, merge review, shot list, evidence per recording, figures |
 | `02_Ground_Station_Telemetry/src/lunabotics_telemetry/` | Rosbridge launch, recording topic list, original LichtBlick layout |
 | `MAIN/src/lunabotics_simulation/` | Gazebo arena world and simulation launch |
 | `MAIN/src/lunabotics_autonomy/` | Autonomy package; provides the simulated navigator node |
 | `01_Interfaces_Communication/src/lunabotics_interfaces/` | Gazebo ↔ ROS topic bridge config and topic list |
-| `tools/` | Install, build, run and record scripts |
+| `tools/` | Install, build, run and record scripts; PDR demo launcher, layout validator, MCAP verifier |
 | `MAIN/profiles.json`, `MAIN/dependency-lock.json` | Build profiles and pinned LichtBlick / ROS installer versions |
 
 Folder names match the team repo so the same commands work in both.
@@ -46,13 +47,21 @@ Use the **`telemetry`** build profile. The `main` and `embedded` profiles in `pr
 
 ## Record
 
-In a second terminal (source both setup files and set `ROS_DOMAIN_ID=84` again):
+**One command (recommended):** after the one-time build above,
+
+```bash
+bash tools/run_pdr_demo.sh            # --headless if Gazebo's window won't open
+```
+
+It shows a checklist (open LichtBlick, connect, start OBS), then starts the sim and the recorder together, prints SIM UP / RECORDING / GOAL REACHED / STOPPED banners, and stops everything when the rover reaches its goal. The recording goes to `~/lunabotics_recordings/SIMULATED_pdr_<time>/`, with logs and resource samples beside it.
+
+**By hand:** in a second terminal (source both setup files and set `ROS_DOMAIN_ID=84` again):
 
 ```bash
 bash tools/record_simulation.sh ~/lunabotics_recordings/SIMULATED_my_run
 ```
 
-Press **Ctrl+C** to stop. Recordings are not stored in this repo (too large for GitHub).
+Press **Ctrl+C** to stop. Recordings are not stored in this repo (too large for GitHub). Check one with `tools/verify_mcap.py` (see `pdr/README.md`).
 
 ## View in LichtBlick
 
@@ -68,7 +77,7 @@ Close LichtBlick. Press **Ctrl+C** in the simulation terminal.
 
 ## Status
 
-- Layout checked against the LichtBlick 1.30.0 source, the recorded MCAP and live Rosbridge. A visual check in the LichtBlick app is still pending.
+- Layout validated against the sim topic list, imported in the LichtBlick 1.30.0 app (renders; UNAVAILABLE with no data), and checked against four recordings and live Rosbridge (`pdr/evidence/`). Screenshots of the app with live and replay data are still to be taken.
 - The robot model uses development dimensions, not measured rover values.
 - Not deployed to or tested on the rover.
 

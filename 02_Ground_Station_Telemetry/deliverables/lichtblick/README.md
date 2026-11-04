@@ -15,7 +15,7 @@ Check the layout with `python3 tools/validate_layout.py`: every topic must be si
 
 ## Open
 
-- **Recording:** LichtBlick → **File → Open local file(s)…** → `SIMULATED_gazebo_nav_20261025_183201_0.mcap`. This file is not in the repo (151 MB). It is in `~/lunabotics_recordings/` on Gadadhar's laptop; checksum in `test_output/recording_info.txt`.
+- **Recording:** LichtBlick → **File → Open local file(s)…** → a `SIMULATED_*.mcap` from `~/lunabotics_recordings/` on Gadadhar's laptop (not in the repo; 100+ MB each). Make a new one with `bash tools/run_pdr_demo.sh`. Verified recordings are listed in `pdr/evidence/`.
 - **Live simulation:** start it (below), then **File → Open connection… → Rosbridge →** `ws://localhost:9090`.
 
 Then import `lichtblick_layout.json`. Full steps are in `operator_quickstart.md`.

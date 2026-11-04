@@ -34,7 +34,7 @@ Date: 2026-10-25. Tester: Gadadhar. **All data simulated (Gazebo). No rover hard
 | 6 | Fault cases (injected into the test feed only) | Status stops; camera stops; camera never publishes; seek backwards; obstacle_stop, no_observed_path, invalid_clock, paused, scan stale, pose missing, unlabelled source, unreadable JSON; `/tf` only | **Pass**: each shows the matching warning or UNAVAILABLE; status stale detected 0.98 s after last message; camera stale after 1.93 s; no negative ages after seek |
 | 7 | Indicator rules cover all values | Navigator states taken from `simulation_navigation.py`; warning codes from the script | **Pass** |
 | 8 | Live through Rosbridge | Subscribed to every layout topic at `ws://localhost:9090` with `cbor-raw` (as LichtBlick does) for 8 s | **Pass**: status 19.8/s, cmd_vel 19.9/s, odom 29.1/s, tf 28.9/s, camera 9.9/s, camera_info 10.0/s, scan 9.9/s, grid 1.9/s, path 1.9/s, tf_static latched. 0 new Rosbridge errors |
-| 9 | Opens in the LichtBlick app | **Not yet done.** LichtBlick is not installed in WSL. Gadadhar to check on Windows with the screenshots in `screenshots/TO_CAPTURE.md` | Pending |
+| 9 | Opens in the LichtBlick app | 2026-11-04: merged layout imported via **View → Import layout from file…** in the LichtBlick 1.30.0 Linux build (SHA-256-verified `.deb`, WSLg, software WebGL) | **Partly done**: imports and renders; with no data every panel shows UNAVAILABLE (`pdr/evidence/LICHTBLICK_APP_layout_import_2026-11-04/`). With live/replay data: pending (Gadadhar, `pdr/shot_list.md`) |
 
 Tests 4–6 run the scripts in Node, not inside LichtBlick. LichtBlick also checks script return types (no unions or nested type literals); the scripts follow those rules, but only test 9 confirms it.
 
@@ -53,7 +53,15 @@ From Alice's PR #4 notes, merged here (her full results: `pdr/merge_review.md`, 
 
 ## After the merge (2026-11-04)
 
-`tools/validate_layout.py` on the merged layout: **PASS** (18 panels, 3 scripts, 12 topics; no orphans or unknown topics). Changes from Alice: TF preloading on the 3D panel, synced plot axes with floating legends, troubleshooting text. Test 9 (merged layout in the LichtBlick app) is still pending.
+`tools/validate_layout.py` on the merged layout: **PASS** (18 panels, 3 scripts, 12 topics; no orphans or unknown topics). Changes from Alice: TF preloading on the 3D panel, synced plot axes with floating legends, troubleshooting text.
+
+## PDR verification (2026-11-04), SIMULATION
+
+Four recordings checked with `tools/verify_mcap.py`; full results in `pdr/evidence/` and summarised in `pdr/slides_9_11.md`. All four: layout coverage 100 %, TF tree connected, clock monotonic; live-vs-recording and replay parity PASS where run. Overall FAIL on two real findings:
+- `/clock` publishes at 500 Hz; `topics.csv` says 100 Hz.
+- Navigator `/sim/cmd_vel` and `/sim/status` gaps up to 0.396 s (20 Hz expected), mostly at start-up; below the display's 1 s stale threshold.
+
+Run `SIMULATED_pdr_20261104_112151` contains a real `no_observed_path` event (19.9–20.2 s) that drives the NO PATH warning. Live Rosbridge load for the layout: 19.36 Mbit/s, 18.26 of it the raw camera.
 
 ## Known gaps and observations
 

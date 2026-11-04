@@ -1,0 +1,454 @@
+{
+  "configById": {
+    "3D!scene": {
+      "followMode": "follow-pose",
+      "followTf": "map",
+      "scene": {
+        "enableStats": false,
+        "transforms": {
+          "enablePreloading": true
+        }
+      },
+      "transforms": {
+        "frame:map": {
+          "visible": true
+        },
+        "frame:base_link": {
+          "visible": true
+        }
+      },
+      "topics": {
+        "/map": {
+          "visible": true,
+          "colorMode": "custom",
+          "minColor": "#43a04733",
+          "maxColor": "#ff9100ff",
+          "unknownColor": "#00000000",
+          "invalidColor": "#ff00ffff",
+          "alpha": 0.8,
+          "frameLocked": false
+        },
+        "/guidance/path": {
+          "visible": true,
+          "type": "line",
+          "lineWidth": 0.06,
+          "gradient": [
+            "#00e5ffff",
+            "#00e5ffff"
+          ]
+        },
+        "/guidance/collision_arc": {
+          "visible": true,
+          "type": "line",
+          "lineWidth": 0.04,
+          "gradient": [
+            "#ffab00ff",
+            "#ffab00ff"
+          ]
+        },
+        "/tags/markers": {
+          "visible": true
+        },
+        "/studio_script/gnc_footprint": {
+          "visible": true
+        }
+      },
+      "lichtblickPanelTitle": "Map, planned path, guidance (GNC-2027 topics)",
+      "cameraState": {
+        "distance": 6.5,
+        "perspective": false,
+        "phi": 0,
+        "thetaOffset": 0,
+        "target": [
+          0,
+          0,
+          0
+        ],
+        "targetOffset": [
+          3.44,
+          2.5,
+          0
+        ],
+        "targetOrientation": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "fovy": 45,
+        "near": 0.5,
+        "far": 5000
+      },
+      "layers": {
+        "arena-grid": {
+          "layerId": "foxglove.Grid",
+          "instanceId": "arena-grid",
+          "label": "Arena grid (1 m)",
+          "visible": true,
+          "frameLocked": true,
+          "frameId": "map",
+          "size": 7,
+          "divisions": 7,
+          "lineWidth": 1,
+          "color": "#9e9e9e80",
+          "position": [
+            3.44,
+            2.5,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "order": 1
+        }
+      },
+      "publish": {
+        "type": "point",
+        "poseTopic": "/operator_display/click_disabled/pose",
+        "pointTopic": "/operator_display/click_disabled/point",
+        "poseEstimateTopic": "/operator_display/click_disabled/pose_estimate",
+        "poseEstimateXDeviation": 0.5,
+        "poseEstimateYDeviation": 0.5,
+        "poseEstimateThetaDeviation": 0.26179939
+      }
+    },
+    "Image!camera": {
+      "imageMode": {},
+      "lichtblickPanelTitle": "Camera: no image topic in GNC-2027 (CDH camera topic TBD)",
+      "publish": {
+        "type": "point",
+        "poseTopic": "/operator_display/click_disabled/pose",
+        "pointTopic": "/operator_display/click_disabled/point",
+        "poseEstimateTopic": "/operator_display/click_disabled/pose_estimate",
+        "poseEstimateXDeviation": 0.5,
+        "poseEstimateYDeviation": 0.5,
+        "poseEstimateThetaDeviation": 0.26179939
+      }
+    },
+    "StateTransitions!timeline": {
+      "lichtblickPanelTitle": "Guidance and planner state over time",
+      "isSynced": true,
+      "paths": [
+        {
+          "value": "/guidance/status.state",
+          "label": "Guidance",
+          "enabled": true,
+          "timestampMethod": "receiveTime"
+        },
+        {
+          "value": "/planning/status.state",
+          "label": "Planner",
+          "enabled": true,
+          "timestampMethod": "receiveTime"
+        }
+      ]
+    },
+    "Plot!motion": {
+      "paths": [
+        {
+          "value": "/cmd_vel.twist.linear.x",
+          "enabled": true,
+          "timestampMethod": "receiveTime",
+          "label": "linear.x (m/s)"
+        },
+        {
+          "value": "/cmd_vel.twist.angular.z",
+          "enabled": true,
+          "timestampMethod": "receiveTime",
+          "label": "angular.z (rad/s)"
+        }
+      ],
+      "xAxisVal": "timestamp",
+      "showLegend": false,
+      "lichtblickPanelTitle": "Commanded speed (/cmd_vel TwistStamped from guidance)",
+      "isSynced": true,
+      "legendDisplay": "floating",
+      "showXAxisLabels": true,
+      "showYAxisLabels": true
+    },
+    "Plot!data_age": {
+      "lichtblickPanelTitle": "Data age (s): pose and IMU, limit 0.5 s",
+      "paths": [
+        {
+          "value": "/studio_script/pose_health.pose_age_s",
+          "enabled": true,
+          "timestampMethod": "receiveTime",
+          "label": "pose"
+        },
+        {
+          "value": "/studio_script/imu_health.imu_age_s",
+          "enabled": true,
+          "timestampMethod": "receiveTime",
+          "label": "IMU"
+        }
+      ],
+      "minYValue": 0,
+      "maxYValue": 3,
+      "xAxisVal": "timestamp",
+      "showLegend": false,
+      "isSynced": true,
+      "legendDisplay": "floating",
+      "showXAxisLabels": true,
+      "showYAxisLabels": true
+    },
+    "SourceInfo!source": {
+      "lichtblickPanelTitle": "Data source: topics, types, start/end time"
+    },
+    "SourceInfo!connection": {
+      "lichtblickPanelTitle": "CONNECTION: source / live state (built-in)"
+    },
+    "Indicator!guidance": {
+      "lichtblickPanelTitle": "GUIDANCE STATE (/guidance/status)",
+      "path": "/guidance/status.state",
+      "style": "background",
+      "rules": [
+        {
+          "operator": "=",
+          "rawValue": "0",
+          "color": "#616161",
+          "label": "IDLE: no path"
+        },
+        {
+          "operator": "=",
+          "rawValue": "1",
+          "color": "#2e7d32",
+          "label": "FOLLOWING PATH"
+        },
+        {
+          "operator": "=",
+          "rawValue": "2",
+          "color": "#1565c0",
+          "label": "GOAL REACHED"
+        },
+        {
+          "operator": "=",
+          "rawValue": "3",
+          "color": "#c62828",
+          "label": "STOPPED: see Details (message)"
+        }
+      ],
+      "fallbackColor": "#616161",
+      "fallbackLabel": "UNAVAILABLE: no /guidance/status"
+    },
+    "Indicator!planner": {
+      "lichtblickPanelTitle": "PLANNER STATE (/planning/status)",
+      "path": "/planning/status.state",
+      "style": "background",
+      "rules": [
+        {
+          "operator": "=",
+          "rawValue": "0",
+          "color": "#616161",
+          "label": "IDLE: no goal"
+        },
+        {
+          "operator": "=",
+          "rawValue": "1",
+          "color": "#f9a825",
+          "label": "PLANNING"
+        },
+        {
+          "operator": "=",
+          "rawValue": "2",
+          "color": "#2e7d32",
+          "label": "PATH PLANNED"
+        },
+        {
+          "operator": "=",
+          "rawValue": "3",
+          "color": "#c62828",
+          "label": "NO PATH: planner FAILED (see Details)"
+        }
+      ],
+      "fallbackColor": "#616161",
+      "fallbackLabel": "UNAVAILABLE: no /planning/status"
+    },
+    "Indicator!pose": {
+      "lichtblickPanelTitle": "Pose /odometry/filtered",
+      "path": "/studio_script/pose_health.pose",
+      "style": "bulb",
+      "fallbackColor": "#616161",
+      "fallbackLabel": "Pose UNAVAILABLE",
+      "rules": [
+        {
+          "operator": "=",
+          "rawValue": "OK",
+          "color": "#2e7d32",
+          "label": "Pose OK"
+        },
+        {
+          "operator": "=",
+          "rawValue": "STALE",
+          "color": "#c62828",
+          "label": "Pose STALE"
+        },
+        {
+          "operator": "=",
+          "rawValue": "NO_DATA",
+          "color": "#616161",
+          "label": "Pose NO DATA"
+        }
+      ]
+    },
+    "Indicator!imu": {
+      "lichtblickPanelTitle": "IMU /imu/data_raw",
+      "path": "/studio_script/imu_health.imu",
+      "style": "bulb",
+      "fallbackColor": "#616161",
+      "fallbackLabel": "IMU UNAVAILABLE",
+      "rules": [
+        {
+          "operator": "=",
+          "rawValue": "OK",
+          "color": "#2e7d32",
+          "label": "IMU OK"
+        },
+        {
+          "operator": "=",
+          "rawValue": "STALE",
+          "color": "#c62828",
+          "label": "IMU STALE"
+        },
+        {
+          "operator": "=",
+          "rawValue": "NO_DATA",
+          "color": "#616161",
+          "label": "IMU NO DATA"
+        }
+      ]
+    },
+    "Plot!tracking": {
+      "lichtblickPanelTitle": "Guidance tracking (m)",
+      "paths": [
+        {
+          "value": "/guidance/status.cross_track_error_m",
+          "enabled": true,
+          "timestampMethod": "receiveTime",
+          "label": "cross-track error"
+        },
+        {
+          "value": "/guidance/status.distance_to_goal_m",
+          "enabled": true,
+          "timestampMethod": "receiveTime",
+          "label": "distance to goal"
+        }
+      ],
+      "xAxisVal": "timestamp",
+      "showLegend": false,
+      "legendDisplay": "floating",
+      "isSynced": true,
+      "showXAxisLabels": true,
+      "showYAxisLabels": true
+    },
+    "RawMessagesVirtual!planner": {
+      "topicPath": "/planning/status",
+      "diffEnabled": false,
+      "diffMethod": "custom",
+      "diffTopicPath": "/planning/status",
+      "showFullMessage": true,
+      "lichtblickPanelTitle": "Raw /planning/status (reason in .message)"
+    },
+    "RawMessagesVirtual!guidance": {
+      "topicPath": "/guidance/status",
+      "diffEnabled": false,
+      "diffMethod": "custom",
+      "diffTopicPath": "/guidance/status",
+      "showFullMessage": true,
+      "lichtblickPanelTitle": "Raw /guidance/status (reason in .message)"
+    },
+    "Tab!main": {
+      "activeTabIdx": 0,
+      "tabs": [
+        {
+          "title": "Operator (GNC-2027)",
+          "layout": {
+            "direction": "column",
+            "first": {
+              "direction": "row",
+              "first": "Indicator!guidance",
+              "second": "Indicator!planner",
+              "splitPercentage": 50
+            },
+            "second": {
+              "direction": "column",
+              "first": {
+                "direction": "row",
+                "first": "SourceInfo!connection",
+                "second": {
+                  "direction": "row",
+                  "first": "Indicator!pose",
+                  "second": "Indicator!imu",
+                  "splitPercentage": 50
+                },
+                "splitPercentage": 34
+              },
+              "second": {
+                "direction": "column",
+                "first": {
+                  "direction": "row",
+                  "first": "3D!scene",
+                  "second": "Image!camera",
+                  "splitPercentage": 70
+                },
+                "second": {
+                  "direction": "row",
+                  "first": "StateTransitions!timeline",
+                  "second": {
+                    "direction": "row",
+                    "first": "Plot!tracking",
+                    "second": {
+                      "direction": "row",
+                      "first": "Plot!data_age",
+                      "second": "Plot!motion",
+                      "splitPercentage": 50
+                    },
+                    "splitPercentage": 34
+                  },
+                  "splitPercentage": 28
+                },
+                "splitPercentage": 74
+              },
+              "splitPercentage": 11
+            },
+            "splitPercentage": 11
+          }
+        },
+        {
+          "title": "Details (raw status, source)",
+          "layout": {
+            "direction": "row",
+            "first": {
+              "direction": "column",
+              "first": "RawMessagesVirtual!planner",
+              "second": "RawMessagesVirtual!guidance",
+              "splitPercentage": 50
+            },
+            "second": "SourceInfo!source",
+            "splitPercentage": 60
+          }
+        }
+      ]
+    }
+  },
+  "globalVariables": {},
+  "userNodes": {
+    "gnc-pose_health": {
+      "name": "pose_health",
+      "sourceCode": "// Pose freshness for the operator display (display only: nothing is sent to ROS).\n// /tf is used only as a heartbeat so a Pose topic that stops is reported as STALE.\n// 0.5 s matches the GNC-2027 path planner pose timeout.\n\nexport const inputs = [\"/odometry/filtered\", \"/tf\"];\nexport const output = \"/studio_script/pose_health\";\n\ntype Time = { sec: number; nsec: number };\ntype InputEvent = { topic: string; receiveTime: Time; message: any };\n\ntype Health = {\n  pose: string;\n  pose_age_s: number;\n};\n\nconst STALE_S = 0.5;\n\nlet lastTime: number | undefined = undefined;\n\nfunction seconds(t: Time): number {\n  return t.sec + t.nsec * 1e-9;\n}\n\nexport default function script(event: InputEvent): Health | undefined {\n  const now = seconds(event.receiveTime);\n  if (event.topic === \"/odometry/filtered\") {\n    lastTime = now;\n  }\n  if (lastTime === undefined) {\n    return { pose: \"NO_DATA\", pose_age_s: -1 };\n  }\n  if (now < lastTime) {\n    // Playback was moved backwards; wait for the next message.\n    lastTime = undefined;\n    return { pose: \"NO_DATA\", pose_age_s: -1 };\n  }\n  const age = now - lastTime;\n  return { pose: age <= STALE_S ? \"OK\" : \"STALE\", pose_age_s: age };\n}\n"
+    },
+    "gnc-imu_health": {
+      "name": "imu_health",
+      "sourceCode": "// IMU freshness for the operator display (display only: nothing is sent to ROS).\n// /tf is used only as a heartbeat so a IMU topic that stops is reported as STALE.\n// 0.5 s is a display choice; GNC-2027 defines no IMU timeout yet.\n\nexport const inputs = [\"/imu/data_raw\", \"/tf\"];\nexport const output = \"/studio_script/imu_health\";\n\ntype Time = { sec: number; nsec: number };\ntype InputEvent = { topic: string; receiveTime: Time; message: any };\n\ntype Health = {\n  imu: string;\n  imu_age_s: number;\n};\n\nconst STALE_S = 0.5;\n\nlet lastTime: number | undefined = undefined;\n\nfunction seconds(t: Time): number {\n  return t.sec + t.nsec * 1e-9;\n}\n\nexport default function script(event: InputEvent): Health | undefined {\n  const now = seconds(event.receiveTime);\n  if (event.topic === \"/imu/data_raw\") {\n    lastTime = now;\n  }\n  if (lastTime === undefined) {\n    return { imu: \"NO_DATA\", imu_age_s: -1 };\n  }\n  if (now < lastTime) {\n    // Playback was moved backwards; wait for the next message.\n    lastTime = undefined;\n    return { imu: \"NO_DATA\", imu_age_s: -1 };\n  }\n  const age = now - lastTime;\n  return { imu: age <= STALE_S ? \"OK\" : \"STALE\", imu_age_s: age };\n}\n"
+    },
+    "gnc-footprint": {
+      "name": "gnc_footprint",
+      "sourceCode": "// Rover footprint for the 3D panel (display only: nothing is sent to ROS).\n// Box attached to base_link, driven by /odometry/filtered. Size from GNC-2027\n// luna_description/config/robot_geometry.yaml (1.0 x 0.7 x 0.4 m, marked ASSUMPTION there).\n\nimport { Message } from \"./types\";\nimport { buildRosMarker, MarkerTypes } from \"./markers\";\n\nexport const inputs = [\"/odometry/filtered\"];\nexport const output = \"/studio_script/gnc_footprint\";\n\ntype Time = { sec: number; nsec: number };\ntype InputEvent = { topic: string; receiveTime: Time; message: any };\ntype Marker = Message<\"visualization_msgs/Marker\">;\n\nexport default function script(event: InputEvent): Marker {\n  return buildRosMarker({\n    header: { frame_id: \"base_link\", stamp: event.receiveTime, seq: 0 },\n    ns: \"gnc_rover_footprint\",\n    id: 0,\n    type: MarkerTypes.CUBE,\n    action: 0,\n    frame_locked: true,\n    pose: {\n      position: { x: 0, y: 0, z: 0.35 },\n      orientation: { x: 0, y: 0, z: 0, w: 1 },\n    },\n    scale: { x: 1.0, y: 0.7, z: 0.4 },\n    color: { r: 1.0, g: 0.6, b: 0.0, a: 0.6 },\n  });\n}\n"
+    }
+  },
+  "playbackConfig": {
+    "speed": 1
+  },
+  "layout": "Tab!main"
+}

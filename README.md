@@ -69,7 +69,7 @@ Press **Ctrl+C** to stop. Recordings are not stored in this repo (too large for 
 2. Open a recording (**File → Open local file(s)…**) or the live sim (**File → Open connection… → Rosbridge → `ws://localhost:9090`**).
 3. **View → Import layout from file…** → `02_Ground_Station_Telemetry/deliverables/lichtblick/lichtblick_layout.json`.
 
-Panel and warning meanings: [operator_quickstart.md](02_Ground_Station_Telemetry/deliverables/lichtblick/operator_quickstart.md). Test results and known gaps: [test_notes.md](02_Ground_Station_Telemetry/deliverables/lichtblick/test_notes.md).
+Panel and warning meanings: [lichtblick_quickstart.md](02_Ground_Station_Telemetry/deliverables/lichtblick/lichtblick_quickstart.md). Test results and known gaps: [test_notes.md](02_Ground_Station_Telemetry/deliverables/lichtblick/test_notes.md).
 
 ## Stop
 

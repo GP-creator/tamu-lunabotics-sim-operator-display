@@ -41,7 +41,7 @@ For pause, recording, replay and troubleshooting, open `MAIN/README.md` inside t
 
 ## Send to Vin
 
-- **Alice:** `lichtblick_layout.json`, `operator_quickstart.md`, a screenshot and test notes.
+- **Alice:** `lichtblick_layout.json`, `lichtblick_quickstart.md`, a screenshot and test notes.
 - **Gadadhar:** `controls.md`, `stop_test_plan.md`, changed code/config files if needed, and test output.
 - Include a short README explaining how to open, run and stop your work.
 

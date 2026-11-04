@@ -10,18 +10,20 @@ Usage: bash tools/run_pdr_demo.sh [options]
   --headless          run Gazebo without its window (sets LIBGL_ALWAYS_SOFTWARE=1)
   --timeout SEC       stop if the goal is not reached in SEC seconds (default 120)
   --yes               do not wait for Enter after the pre-flight checklist
-  --measure-bandwidth also measure the Rosbridge bandwidth LichtBlick's layout pulls (adds a client)
+  --no-bandwidth      skip the 10 s Rosbridge bandwidth measurement (on by default; it is a
+                      second read-only Rosbridge client, compatible with LichtBlick)
   -h, --help          show this help
 EOF
 }
 
-headless=0; timeout_s=120; wait_enter=1; measure_bw=0
+headless=0; timeout_s=120; wait_enter=1; measure_bw=1
 while (($#)); do
   case "$1" in
     --headless) headless=1 ;;
     --timeout) timeout_s="$2"; shift ;;
     --yes) wait_enter=0 ;;
-    --measure-bandwidth) measure_bw=1 ;;
+    --no-bandwidth) measure_bw=0 ;;
+    --measure-bandwidth) measure_bw=1 ;;  # accepted for old commands; now the default
     -h|--help) usage; exit 0 ;;
     *) usage >&2; exit 2 ;;
   esac
@@ -37,6 +39,12 @@ mkdir -p "$logs"
 
 banner() { printf '\n\033[1;97;44m ==== [%s] %s ==== \033[0m\n' "$(date '+%Y-%m-%d %H:%M:%S')" "$*" | tee -a "$logs/banners.log"; }
 note() { printf '[%s] %s\n' "$(date +%H:%M:%S)" "$*" | tee -a "$logs/banners.log"; }
+fail_banner() {
+  printf '\n\033[1;97;41m%s\n%s\n%s\033[0m\n' \
+    " ######################################################################## " \
+    " ####  [$(date '+%Y-%m-%d %H:%M:%S')] $*" \
+    " ######################################################################## " | tee -a "$logs/banners.log"
+}
 
 # ROS setup scripts reference unset variables, so source them with nounset off.
 set +u
@@ -52,12 +60,16 @@ export ROS_DOMAIN_ID=84 HARDWARE_ENABLED=0
 if ss -ltn 2>/dev/null | grep -q ':9090 '; then
   echo "Port 9090 is already in use: another simulation or Rosbridge is running. Stop it first." >&2; exit 2
 fi
-if timeout 5 ros2 topic list 2>/dev/null | grep -q '^/sim/status$'; then
+# --no-daemon: the ROS 2 daemon keeps listing topics of a sim that stopped seconds ago.
+if timeout 10 ros2 topic list --no-daemon 2>/dev/null | grep -q '^/sim/status$'; then
   echo "A simulation is already publishing on ROS_DOMAIN_ID=84. Stop it first." >&2; exit 2
 fi
 
 # Job control: each background job gets its own process group and, unlike plain `&` jobs in a
 # script, does not start with SIGINT ignored, so Ctrl+C-style shutdown reaches ros2 launch/bag.
+# Every background job reads stdin from /dev/null: a background process group that reads the
+# terminal is stopped by the kernel (SIGTTIN). `ros2 bag record` reads the terminal for its
+# keyboard controls, so without this it froze before writing any MCAP when run from a terminal.
 set -m
 sim_pid=""; rec_pid=""; res_pid=""
 stop_group() {  # SIGINT a process group (like Ctrl+C), then escalate if it does not exit
@@ -71,12 +83,25 @@ stop_group() {  # SIGINT a process group (like Ctrl+C), then escalate if it does
   note "$name still running; killing it"
   kill -KILL -- "-$pid" 2>/dev/null || true
 }
-cleanup() {
+mcap_check() {  # the run only counts if the recorder left a finished MCAP behind
+  local file
+  file="$(compgen -G "$recording/*.mcap" | head -n 1 || true)"
+  if [[ -n "$file" && -s "$file" && -f "$recording/metadata.yaml" ]]; then
+    banner "MCAP SAVED  $file  ($(du -h "$file" | cut -f1))"
+    return 0
+  fi
+  fail_banner "NO MCAP SAVED - THIS RUN WAS NOT RECORDED. See $logs/recorder.log"
+  return 1
+}
+cleanup() {  # EXIT trap: stop everything, then fail loudly if nothing was recorded
+  local status=$?
   trap - EXIT INT TERM
   stop_group "$rec_pid" recorder
   stop_group "$sim_pid" simulation
   [[ -n "$res_pid" ]] && kill -TERM "$res_pid" 2>/dev/null && wait "$res_pid" 2>/dev/null || true
   banner "STOPPED"
+  mcap_check || status=3
+  exit "$status"
 }
 trap cleanup EXIT
 trap 'note "Interrupted"; exit 130' INT TERM
@@ -105,13 +130,13 @@ EOF
 
 note "Starting simulation (headless=$headless). Log: $logs/simulation.log"
 sim_args=(); ((headless)) && sim_args+=(headless:=true)
-bash "$root/tools/run_simulation.sh" "${sim_args[@]}" >"$logs/simulation.log" 2>&1 &
+bash "$root/tools/run_simulation.sh" "${sim_args[@]}" </dev/null >"$logs/simulation.log" 2>&1 &
 sim_pid=$!
-python3 "$root/tools/sample_resources.py" --out "$logs/resources.csv" --interval 1 &
+python3 "$root/tools/sample_resources.py" --out "$logs/resources.csv" --interval 1 </dev/null &
 res_pid=$!
 # Start recording with the simulation so the start of the run is captured; rosbag2 subscribes
 # to each listed topic as soon as it appears.
-bash "$root/tools/record_simulation.sh" "$recording" >"$logs/recorder.log" 2>&1 &
+bash "$root/tools/record_simulation.sh" "$recording" </dev/null >"$logs/recorder.log" 2>&1 &
 rec_pid=$!
 rec_started="$(date +%H:%M:%S)"
 
@@ -123,9 +148,17 @@ until ss -ltn 2>/dev/null | grep -q ':9090 '; do
 done
 note "Rosbridge listening on ws://localhost:9090"
 key_topics=(/clock /tf /sim/status /sim/scan /sim/odom /sim/camera/image)
+wait_for_message() {  # `ros2 topic echo` exits at once if the topic is not advertised yet, so retry
+  local topic="$1" until=$((SECONDS+30))
+  while ((SECONDS < until)); do
+    timeout 10 ros2 topic echo --once --no-arr "$topic" </dev/null >/dev/null 2>&1 && return 0
+    sleep 0.5
+  done
+  return 1
+}
 checks=()
 for topic in "${key_topics[@]}"; do
-  timeout 30 ros2 topic echo --once --no-arr "$topic" >/dev/null 2>&1 &
+  wait_for_message "$topic" </dev/null &
   checks+=($!)
 done
 for i in "${!key_topics[@]}"; do
@@ -182,13 +215,16 @@ sleep 5
 stop_group "$rec_pid" recorder; rec_pid=""
 ros2 bag info "$recording" >"$logs/bag_info.txt" 2>&1 || true
 stop_group "$sim_pid" simulation; sim_pid=""
-cleanup
-trap - EXIT
+trap - EXIT INT TERM
+[[ -n "$res_pid" ]] && kill -TERM "$res_pid" 2>/dev/null && wait "$res_pid" 2>/dev/null || true
+banner "STOPPED"
+mcap_check || exit 3
 cat <<EOF
 
  Recording: $recording
- Logs:      $logs   (banners.log, simulation.log, recorder.log, resources.csv, bag_info.txt)
+ Logs:      $logs   (banners.log, simulation.log, recorder.log, resources.csv, rosbridge_bandwidth.json, bag_info.txt)
  You can stop OBS now.
- Verify:    python3 tools/verify_mcap.py "$recording" --label SIMULATION --resources "$logs/resources.csv"
+ Verify:    ~/.venvs/lunabotics-pdr/bin/python tools/verify_mcap.py "$recording" --label SIMULATION \\
+              --resources "$logs/resources.csv" --rosbridge-bandwidth "$logs/rosbridge_bandwidth.json"
 EOF
 [[ "$outcome" == complete ]]

@@ -29,6 +29,8 @@ Run the installer that appears in your Downloads folder. The repo uses LichtBlic
 2. In LichtBlick, choose **File → Open connection…**, then **Rosbridge**.
 3. Enter `ws://localhost:9090` and choose **Open**.
 
+To view from **another computer**, use `ws://<ubuntu-ip>:9090`. This only works if Rosbridge listens on that network. The team launch binds it to `127.0.0.1` (this computer only), so remote viewing needs a launch change. Alice used a temporary bridge on her VM's address for her macOS test.
+
 LichtBlick shows the file name or `ws://localhost:9090` at the top of the window. This is how to tell a **recording** from a **live connection**. The display itself cannot tell them apart.
 
 ## 3. Import the layout (once per computer)
@@ -62,7 +64,7 @@ Bottom:
 | --- | --- |
 | **Mission state and warnings over time** | A timeline of state and warning changes. |
 | **Data age** | How old each input is, in seconds. Higher means older. |
-| **Commanded speed** | Speed and turn rate the simulated navigator is commanding. |
+| **Commanded speed** | Speed and turn rate the simulated navigator is **commanding**, not measured speed. A flat line after COMPLETE is normal. |
 | **Battery / E-stop / Faults** | Always grey **UNAVAILABLE**. No topic exists for these yet. |
 
 If a panel says **UNAVAILABLE**, **NO DATA** or "Waiting for…", its input is missing. This is not a display fault.
@@ -85,9 +87,21 @@ If a panel says **UNAVAILABLE**, **NO DATA** or "Waiting for…", its input is m
 
 **Important:** if the whole connection drops, every panel keeps its last value. Check the connection indicator at the top of LichtBlick. A frozen display can look normal.
 
-## 6. Stop and close
+## 6. If something looks wrong
 
-1. Close LichtBlick (close the window). This changes nothing on the robot or simulation.
-2. If you started the simulation: press **Ctrl+C** in its Ubuntu terminal and wait for it to exit.
+Troubleshooting from Alice Choi's live test, plus our own.
+
+| Symptom | Do this |
+| --- | --- |
+| Nothing updates | Is the simulation still running? Is the connection **Rosbridge** at the right address? |
+| 3D panel says `Missing transform from frame <base_scan> to frame <base_link>` | Wait a few seconds after the sim starts, then reconnect: **File → Open connection… → Rosbridge** again. This cleared it in Alice's test (workaround; cause not confirmed). |
+| Camera blank | Check the Camera light. If it is grey, `/sim/camera/image` isn't publishing; don't change the panel. |
+| Speed plot flat | Check MISSION STATE. After COMPLETE the rover is meant to stop. |
+| Battery / E-stop / Faults grey | Expected: no input exists yet. |
+
+## 7. Stop and close
+
+1. Close LichtBlick (close the window). This only stops **viewing**; it does not stop the simulation or a robot.
+2. If you started the simulation: press **Ctrl+C** in its Ubuntu terminal and wait for it to exit. This is not an emergency stop for real hardware.
 
 The layout stays saved in LichtBlick for next time.

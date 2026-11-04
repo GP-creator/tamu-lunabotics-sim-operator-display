@@ -1,6 +1,6 @@
 # LichtBlick operator display
 
-Owner: Gadadhar (LichtBlick display, agreed with Alice). Data: **simulated only** (Gazebo). Not tested on the rover.
+Owner: Gadadhar, merged with Alice Choi's dashboard (PR #4; see `pdr/merge_review.md`). Data: **simulated only** (Gazebo). Not tested on the rover.
 
 | File | What it is |
 | --- | --- |
@@ -8,7 +8,10 @@ Owner: Gadadhar (LichtBlick display, agreed with Alice). Data: **simulated only*
 | `operator_quickstart.md` | Step-by-step guide for Vin: open, read, stop |
 | `test_notes.md` | What was tested, how, results, known gaps |
 | `screenshots/` | Screenshots; `screenshots/TO_CAPTURE.md` lists what to capture |
-| `test_output/` | Script test output and recording details (not named `evidence/`, which the repo's `.gitignore` excludes) |
+| `test_output/` | Script test output and recording details (not named `evidence/`, which the team repo's `.gitignore` excludes) |
+| `rover_only_topics.txt` | Topics only the real rover publishes (empty until real topic names are known) |
+
+Check the layout with `python3 tools/validate_layout.py`: every topic must be sim-available, rover-only (listed above) or a script output.
 
 ## Open
 

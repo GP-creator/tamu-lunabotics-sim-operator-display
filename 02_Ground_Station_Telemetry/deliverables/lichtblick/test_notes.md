@@ -38,6 +38,23 @@ Date: 2026-10-25. Tester: Gadadhar. **All data simulated (Gazebo). No rover hard
 
 Tests 4–6 run the scripts in Node, not inside LichtBlick. LichtBlick also checks script return types (no unions or nested type literals); the scripts follow those rules, but only test 9 confirms it.
 
+## Second environment: Alice Choi's live test (2026-11-01), SIMULATION
+
+From Alice's PR #4 notes, merged here (her full results: `pdr/merge_review.md`, screenshot in `pdr/evidence/SIMULATION_alice_live_2026-11-01/`). She tested **her five-panel layout**, not the merged one.
+
+| Item | Value |
+| --- | --- |
+| Client | LichtBlick 1.30.0 on macOS (Apple Silicon) |
+| Sim | Ubuntu 24.04 ARM64 in UTM, ROS 2 Jazzy, Gazebo Harmonic, domain 84, `HARDWARE_ENABLED=0` |
+| Connection | Rosbridge at the VM's address (`ws://192.168.64.3:9090`, session-specific) |
+| Passed | Rosbridge connect; camera image; `/sim/status` (`gazebo_simulation`, `complete`); `/sim/scan` 720 ranges in `base_scan`; `tf2_echo base_link base_scan` = (0, 0, 0.42); 3D panel after reconnect |
+| Issue | 3D panel first showed `Missing transform from frame <base_scan> to frame <base_link>`; reconnecting Rosbridge cleared it. Cause not confirmed |
+| Workarounds | Ogre2/EGL crash on the VM; she used temporary Ogre world/launch files under `/tmp` (not committed). The standard launch was not validated end-to-end on that VM |
+
+## After the merge (2026-11-04)
+
+`tools/validate_layout.py` on the merged layout: **PASS** (18 panels, 3 scripts, 12 topics; no orphans or unknown topics). Changes from Alice: TF preloading on the 3D panel, synced plot axes with floating legends, troubleshooting text. Test 9 (merged layout in the LichtBlick app) is still pending.
+
 ## Known gaps and observations
 
 1. **Recorded vs live cannot be detected inside the layout.** With `/clock` present, LichtBlick's Rosbridge player stamps messages with sim time, the same as the recording. The display labels data **SIMULATED** from the `source` field. Recorded vs live comes from LichtBlick's data-source name (file name vs `ws://localhost:9090`) and the recording's `SIMULATED_` file name.

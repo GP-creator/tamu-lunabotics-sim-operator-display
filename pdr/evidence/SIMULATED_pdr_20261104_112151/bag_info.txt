@@ -1,0 +1,23 @@
+
+Files:             SIMULATED_pdr_20261104_112151_0.mcap
+Bag size:          138.3 MiB
+Storage id:        mcap
+ROS Distro:        jazzy
+Duration:          58.474000000s
+Start:             Dec 31 1969 18:00:00.004000000 (0.004000000)
+End:               Dec 31 1969 18:00:58.478000000 (58.478000000)
+Messages:          42751
+Topic information: Topic: /clock | Type: rosgraph_msgs/msg/Clock | Count: 29160 | Serialization Format: cdr
+                   Topic: /sim/camera/camera_info | Type: sensor_msgs/msg/CameraInfo | Count: 585 | Serialization Format: cdr
+                   Topic: /sim/camera/image | Type: sensor_msgs/msg/Image | Count: 585 | Serialization Format: cdr
+                   Topic: /sim/cmd_vel | Type: geometry_msgs/msg/Twist | Count: 1165 | Serialization Format: cdr
+                   Topic: /sim/imu | Type: sensor_msgs/msg/Imu | Count: 5831 | Serialization Format: cdr
+                   Topic: /sim/obstacle_grid | Type: nav_msgs/msg/OccupancyGrid | Count: 117 | Serialization Format: cdr
+                   Topic: /sim/odom | Type: nav_msgs/msg/Odometry | Count: 1719 | Serialization Format: cdr
+                   Topic: /sim/planned_path | Type: nav_msgs/msg/Path | Count: 117 | Serialization Format: cdr
+                   Topic: /sim/scan | Type: sensor_msgs/msg/LaserScan | Count: 585 | Serialization Format: cdr
+                   Topic: /sim/status | Type: std_msgs/msg/String | Count: 1165 | Serialization Format: cdr
+                   Topic: /tf | Type: tf2_msgs/msg/TFMessage | Count: 1719 | Serialization Format: cdr
+                   Topic: /tf_static | Type: tf2_msgs/msg/TFMessage | Count: 3 | Serialization Format: cdr
+Service:           0
+Service information: 

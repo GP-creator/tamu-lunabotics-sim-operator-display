@@ -1,0 +1,76 @@
+{
+  "url": "ws://localhost:9090",
+  "seconds": 10.001850843429565,
+  "compression": "cbor-raw",
+  "topics": {
+    "/clock": {
+      "messages": 4342,
+      "rate_hz": 434.11965124958397,
+      "bytes_per_s": 30388.375587470877,
+      "kbit_per_s": 243.107004699767
+    },
+    "/sim/camera/camera_info": {
+      "messages": 99,
+      "rate_hz": 9.898168004078492,
+      "bytes_per_s": 4404.684761814929,
+      "kbit_per_s": 35.23747809451943
+    },
+    "/sim/camera/image": {
+      "messages": 98,
+      "rate_hz": 9.7981865090878,
+      "bytes_per_s": 2258766.1377535015,
+      "kbit_per_s": 18070.12910202801
+    },
+    "/sim/cmd_vel": {
+      "messages": 188,
+      "rate_hz": 18.796521058250065,
+      "bytes_per_s": 2199.192963815258,
+      "kbit_per_s": 17.593543710522063
+    },
+    "/sim/obstacle_grid": {
+      "messages": 19,
+      "rate_hz": 1.8996484048231448,
+      "bytes_per_s": 6937.515974414125,
+      "kbit_per_s": 55.500127795313
+    },
+    "/sim/odom": {
+      "messages": 288,
+      "rate_hz": 28.794670557319247,
+      "bytes_per_s": 22661.405728610247,
+      "kbit_per_s": 181.29124582888198
+    },
+    "/sim/planned_path": {
+      "messages": 19,
+      "rate_hz": 1.8996484048231448,
+      "bytes_per_s": 490.1092884443714,
+      "kbit_per_s": 3.920874307554971
+    },
+    "/sim/scan": {
+      "messages": 98,
+      "rate_hz": 9.7981865090878,
+      "bytes_per_s": 57681.923978999876,
+      "kbit_per_s": 461.455391831999
+    },
+    "/sim/status": {
+      "messages": 188,
+      "rate_hz": 18.796521058250065,
+      "bytes_per_s": 6049.680298896781,
+      "kbit_per_s": 48.39744239117425
+    },
+    "/tf": {
+      "messages": 286,
+      "rate_hz": 28.594707567337863,
+      "bytes_per_s": 4460.774380504707,
+      "kbit_per_s": 35.68619504403765
+    },
+    "/tf_static": {
+      "messages": 1,
+      "rate_hz": 0.09998149499069184,
+      "bytes_per_s": 17.096835643408305,
+      "kbit_per_s": 0.13677468514726643
+    }
+  },
+  "other_bytes": 0,
+  "total_bytes_per_s": 2394056.897552116,
+  "total_mbit_per_s": 19.152455180416926
+}

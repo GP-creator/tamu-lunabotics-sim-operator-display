@@ -1,0 +1,7 @@
+{
+  "placeholder": true,
+  "assumed_link_mbit_per_s": 10.0,
+  "assumed_storage_free_gb": null,
+  "note": "PLACEHOLDER ASSUMPTION, not a measurement. 10 Mbit/s is a round number chosen only so margins can be computed. Replace with Sabu+Robin's measured rover-to-operator bandwidth (and latency) from PDR slides 6-8, set placeholder to false, and rerun tools/verify_mcap.py. assumed_storage_free_gb: Jetson free disk from Sameer+Zosia (TBD).",
+  "owner": "Sabu + Robin (network), Sameer + Zosia (Jetson storage)"
+}

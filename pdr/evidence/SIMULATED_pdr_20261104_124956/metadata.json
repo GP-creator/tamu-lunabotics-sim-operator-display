@@ -1,0 +1,114 @@
+{
+  "run_id": "SIMULATED_pdr_20261104_124956",
+  "date_local": "2026-11-04T12:49:56",
+  "mode_label": "SIMULATION",
+  "source": "Gazebo simulation, HARDWARE_ENABLED=0",
+  "duration_s": 42.872,
+  "time_base": "simulation time (starts near 0)",
+  "message_count_total": 31335,
+  "message_count_per_topic": {
+    "/clock": 21436,
+    "/sim/camera/camera_info": 429,
+    "/sim/camera/image": 429,
+    "/sim/cmd_vel": 815,
+    "/sim/imu": 4287,
+    "/sim/obstacle_grid": 85,
+    "/sim/odom": 1261,
+    "/sim/planned_path": 85,
+    "/sim/scan": 429,
+    "/sim/status": 815,
+    "/tf": 1261,
+    "/tf_static": 3
+  },
+  "topics": [
+    {
+      "topic": "/clock",
+      "type": "rosgraph_msgs/msg/Clock"
+    },
+    {
+      "topic": "/sim/camera/camera_info",
+      "type": "sensor_msgs/msg/CameraInfo"
+    },
+    {
+      "topic": "/sim/camera/image",
+      "type": "sensor_msgs/msg/Image"
+    },
+    {
+      "topic": "/sim/cmd_vel",
+      "type": "geometry_msgs/msg/Twist"
+    },
+    {
+      "topic": "/sim/imu",
+      "type": "sensor_msgs/msg/Imu"
+    },
+    {
+      "topic": "/sim/obstacle_grid",
+      "type": "nav_msgs/msg/OccupancyGrid"
+    },
+    {
+      "topic": "/sim/odom",
+      "type": "nav_msgs/msg/Odometry"
+    },
+    {
+      "topic": "/sim/planned_path",
+      "type": "nav_msgs/msg/Path"
+    },
+    {
+      "topic": "/sim/scan",
+      "type": "sensor_msgs/msg/LaserScan"
+    },
+    {
+      "topic": "/sim/status",
+      "type": "std_msgs/msg/String"
+    },
+    {
+      "topic": "/tf",
+      "type": "tf2_msgs/msg/TFMessage"
+    },
+    {
+      "topic": "/tf_static",
+      "type": "tf2_msgs/msg/TFMessage"
+    }
+  ],
+  "missing_topics": {
+    "from_topics_to_record": [],
+    "needed_by_layout": []
+  },
+  "storage_plugin": "mcap",
+  "rosbag2_bagfile_version": 9,
+  "ros_distro": "jazzy",
+  "compression": "none",
+  "files": [
+    {
+      "name": "SIMULATED_pdr_20261104_124956_0.mcap",
+      "bytes": 106370973,
+      "sha256": "28797737cd1a10bbcd997f1bea2f570fbea7dc03b7e7614fbd74da67db39c36f"
+    }
+  ],
+  "versions": {
+    "os": "Ubuntu 24.04.5 LTS",
+    "kernel": "6.18.33.2-microsoft-standard-WSL2",
+    "cpu_cores": "24",
+    "lichtblick": "1.30.0 (MAIN/dependency-lock.json); linux-amd64 .deb SHA-256 verified by tools/download_lichtblick.py; layout imported in the 1.30.0 app on 2026-11-04",
+    "ros-jazzy-gz-sim-vendor": "0.0.13-1noble.20260905.073557",
+    "ros-jazzy-ros-base": "0.11.0-1noble.20261006.035407",
+    "ros-jazzy-ros-gz-bridge": "1.0.24-1noble.20260920.234644",
+    "ros-jazzy-ros-gz-sim": "1.0.24-1noble.20261006.035056",
+    "ros-jazzy-rosbag2": "0.26.11-1noble.20261006.034645",
+    "ros-jazzy-rosbag2-storage-mcap": "0.26.11-1noble.20260911.143733",
+    "ros-jazzy-rosbridge-server": "2.7.1-1noble.20261006.035306"
+  },
+  "verification": {
+    "tool": "tools/verify_mcap.py",
+    "passed": false,
+    "checks": {
+      "all_topics_pass": false,
+      "layout_coverage_100pct": true,
+      "tf_and_clock_ok": true,
+      "live_parity": false,
+      "replay_parity": true
+    },
+    "summary": "summary.md"
+  },
+  "raw_data_location": "see pdr/evidence_location.md (not in GitHub)"
+}

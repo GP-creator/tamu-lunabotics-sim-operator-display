@@ -1,0 +1,9 @@
+# Topics the layout may use that only the real rover publishes (the simulation does not).
+# One topic per line: <topic> <type> <source/owner>. Lines starting with # are ignored.
+#
+# Currently EMPTY: the layout uses only simulation topics. Battery, E-stop and fault panels
+# have no topic at all and show UNAVAILABLE.
+#
+# To add after Nov 5 real-rover data (names from Sabu+Robin's topics.csv), for example:
+#   /<lidar_topic>   sensor_msgs/msg/LaserScan   Unitree L2 driver   (TBD)
+#   /<camera_topic>  sensor_msgs/msg/Image       Orbbec driver       (TBD)

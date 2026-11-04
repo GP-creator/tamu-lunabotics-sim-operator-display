@@ -4,7 +4,10 @@
       "followMode": "follow-pose",
       "followTf": "odom",
       "scene": {
-        "enableStats": false
+        "enableStats": false,
+        "transforms": {
+          "enablePreloading": true
+        }
       },
       "transforms": {
         "frame:odom": {
@@ -480,7 +483,11 @@
       ],
       "xAxisVal": "timestamp",
       "showLegend": true,
-      "lichtblickPanelTitle": "Commanded speed (SIMULATED navigator)"
+      "lichtblickPanelTitle": "Commanded speed (SIMULATED navigator)",
+      "isSynced": true,
+      "legendDisplay": "floating",
+      "showXAxisLabels": true,
+      "showYAxisLabels": true
     },
     "Plot!data_age": {
       "lichtblickPanelTitle": "Data age (s): red warning above 0.5 s LiDAR/pose, 2 s camera",
@@ -513,7 +520,11 @@
       "minYValue": 0,
       "maxYValue": 3,
       "xAxisVal": "timestamp",
-      "showLegend": true
+      "showLegend": true,
+      "isSynced": true,
+      "legendDisplay": "floating",
+      "showXAxisLabels": true,
+      "showYAxisLabels": true
     },
     "RawMessagesVirtual!status": {
       "topicPath": "/sim/status",

@@ -9,7 +9,7 @@ All data so far is **SIMULATION** (live Gazebo) or **REPLAY** (a recording of it
 | Part | Version | Source |
 | --- | --- | --- |
 | LichtBlick desktop app | **1.30.0** (pinned, SHA-256 checked) | `MAIN/dependency-lock.json` |
-| LichtBlick web (lichtblick-suite.github.io) | **TBD: read Help → About** | not pinned; may be newer than 1.30.0 |
+| LichtBlick web (lichtblick-suite.github.io) | **unknown** (not checked; see Help → About) | not pinned; may differ from 1.30.0 |
 | Rosbridge (`rosbridge_server`) | 2.7.1 | `pdr/evidence/environment.txt` |
 | ROS 2 | Jazzy (ros-base 0.11.0), Ubuntu 24.04 / WSL2 | same |
 | Gazebo | Harmonic (gz_sim_vendor 0.0.13), ros_gz 1.0.24 | same |
@@ -103,7 +103,7 @@ Which topic feeds each panel: `panel_topics.md` (GNC version: `panel_topics_gnc2
 | PAUSED | Simulated navigation paused with `/sim/pause`. | — |
 | SOURCE NOT LABELLED SIMULATED | Status data does not say it is simulated; treat as unverified. | Data origin. |
 
-**If the whole connection drops, every other panel keeps its last value**, and the lights can stay green. Only the **CONNECTION** panel ("Waiting for connection…") and LichtBlick's app bar (spinner, red error, "Connection failed" alert) show it. **Always check CONNECTION before trusting the lights.** Fault-test results: `pdr/evidence/fault_tests.md`.
+**If the whole connection drops, every other panel keeps its last value**, and the lights can stay green. Only the **CONNECTION** panel ("Waiting for connection…") and LichtBlick's app bar (spinner, red error, "Connection failed" alert) show it. **Always check CONNECTION before trusting the lights.** Fault tests: script ready (`tools/fault_test.sh`), visual test PENDING; see `pdr/evidence/fault_tests.md`.
 
 ## 6. Recording workflow
 
@@ -147,3 +147,20 @@ Where the shared recordings live and how to check their checksums: `pdr/evidence
 
 1. Close LichtBlick. This only stops **viewing**; it does not stop the simulation or a robot.
 2. Simulation: Ctrl+C in its Ubuntu terminal (the launcher stops by itself). This is not an emergency stop for real hardware.
+
+## 10. macOS
+
+- **Replay works directly on a Mac:** install LichtBlick for macOS, then **File → Open local file(s)…** → the `.mcap`, and **View → Import layout from file…**. No ROS needed. `tools/download_lichtblick.py` only pins Windows/Linux installers, so get the macOS build of the same version (1.30.0) from the LichtBlick GitHub releases page; it has no pinned checksum here.
+- **The simulation needs Linux** (Ubuntu 24.04 + ROS 2 Jazzy + Gazebo Harmonic): a Linux VM (Alice's UTM setup needed Ogre workarounds) or Gadadhar's laptop. View it live from the Mac only if Rosbridge listens on a reachable address (section 2).
+- **Checksums:** `shasum -a 256 SIMULATED_pdr_20261104_124956_0.mcap` and compare with `pdr/evidence/<run>/SHA256SUMS`, or run `shasum -a 256 -c SHA256SUMS` in the folder with the `.mcap`.
+- **Paths:** Mac paths are normal (`~/Downloads/...`); ignore every `\\wsl$\...` and `C:\Users\...` path in these docs.
+- **Scripts:**
+
+  | Script | On macOS |
+  | --- | --- |
+  | `tools/run_pdr_demo.sh`, `tools/fault_test.sh`, `tools/run_simulation.sh`, `tools/record_simulation.sh`, `record_replay.sh` | **Linux only** (ROS 2 Jazzy, `ss`, `pgrep`, `/opt/ros/jazzy`). Run them on the Linux machine. |
+  | `tools/install_dependencies.sh` | **Ubuntu only** (`apt-get`). |
+  | `tools/download_lichtblick.py` | No macOS option (Windows/Linux only). |
+  | `tools/sample_resources.py` | Runs, but matches Linux process names; meant for the sim machine. |
+  | `tools/verify_mcap.py` | **Works** with `python3 -m venv` + `pip install mcap==1.2.2 mcap-ros2-support==0.5.5 matplotlib pyyaml websocket-client cbor2`; `--replay-parity` needs ROS (Linux). |
+  | `tools/validate_layout.py`, `tools/layout_diagram.py`, `tools/make_gnc_layout.py`, `tools/write_run_metadata.py` | **Work** with Python 3 + `pyyaml` + `matplotlib`. |

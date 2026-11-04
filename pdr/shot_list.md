@@ -1,5 +1,7 @@
 # Screenshot shot list: PDR slides 9–11
 
+> **Superseded for the final screenshots by `pdr/screenshot_manifest.md`** (run `SIMULATED_pdr_20261104_124956`). This list is kept for the shot ideas and earlier timings.
+
 Take these yourself from the OBS capture or directly in LichtBlick 1.30.0 with the merged `lichtblick_layout.json`. Keep LichtBlick's top bar in frame: it shows the data source (`ws://localhost:9090` = live, file name = replay). That's how the label is proven.
 
 Times below are taken from the verified recordings in `pdr/evidence/`. A new live run will be close but not identical; use the banners and the MISSION STATE panel to time the shots.

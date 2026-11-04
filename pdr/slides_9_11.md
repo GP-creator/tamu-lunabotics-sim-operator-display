@@ -12,7 +12,7 @@ Owners: Gadadhar + Alice Choi. ~2 min per slide.
 
 **Bullets**
 - **Selected design:** LichtBlick 1.30.0 (pinned, SHA-256 checked) with one versioned layout file. Live view over Rosbridge `ws://localhost:9090`; offline replay from MCAP with no ROS needed.
-- **Change since SRR:** the SRR trade study chose Dear PyGui (75 pts vs SSH/CLI 61). Reason for moving to LichtBlick: **TBD, confirm with CDH lead**. LichtBlick covers the SRR requirements we tested: ROS 2 topic subscription, image display, auto-reconnect after link loss (retries every 3 s), open source.
+- **SRR baseline:** LichtBlick is the operator display selected at SRR; unchanged since.
 - **Panels:** 18 panels / 3 display-only scripts / 12 topics; every topic exists in the sim (layout validator PASS). Mission state + warnings sit in the top row.
 - **Warning logic:** from `/sim/status`, LiDAR or pose older than 0.5 s, camera older than 2 s (thresholds from the autonomy code), status silent for over 1 s; obstacle stop, no path, invalid clock. Battery/E-stop/faults show **UNAVAILABLE** (no topic yet).
 - **Safe by design:** display only. No Teleop/Publish panels; click-to-publish redirected to inert topics.
@@ -23,7 +23,7 @@ Owners: Gadadhar + Alice Choi. ~2 min per slide.
 - Versions (ENV): Ubuntu 24.04.5, ROS 2 Jazzy (ros-base 0.11.0), Gazebo Harmonic (gz_sim_vendor 0.0.13), ros_gz 1.0.24, rosbridge_server 2.7.1, rosbag2 + MCAP 0.26.11, LichtBlick 1.30.0.
 
 **Speaker notes (~2 min)**
-> Our ground station is LichtBlick 1.30.0 with one layout file that we version-control. It connects live over Rosbridge, or opens a recorded MCAP file with no ROS install at all, which is how Vin can review runs on any laptop. At SRR the team picked Dear PyGui; we have since moved to LichtBlick, [reason TBD]. Against the SRR requirements, LichtBlick subscribes to ROS 2 topics directly, shows images, and reconnects on its own after a link drop. The layout puts mission state and warnings across the top, so the operator sees what the rover is doing and whether anything is wrong at a glance. Warnings come from the navigator's own status message, with the same 0.5-second staleness limits the autonomy code uses. Anything we don't have a topic for yet (battery, E-stop, faults) is shown as UNAVAILABLE rather than blank. It's display-only: no panel can send commands, and we redirected the click-to-publish tool so a stray click can't send a goal. This merges Alice's dashboard: her transform preloading, plot settings and her troubleshooting from a live test on macOS.
+> Our ground station is LichtBlick 1.30.0 with one layout file that we version-control. It connects live over Rosbridge, or opens a recorded MCAP file with no ROS install at all, which is how Vin can review runs on any laptop. LichtBlick is the display we selected at SRR, and that choice hasn't changed. The layout puts mission state and warnings across the top, so the operator sees what the rover is doing and whether anything is wrong at a glance. Warnings come from the navigator's own status message, with the same 0.5-second staleness limits the autonomy code uses. Anything we don't have a topic for yet (battery, E-stop, faults) is shown as UNAVAILABLE rather than blank. It's display-only: no panel can send commands, and we redirected the click-to-publish tool so a stray click can't send a goal. This merges Alice's dashboard: her transform preloading, plot settings and her troubleshooting from a live test on macOS.
 
 ---
 
@@ -63,7 +63,7 @@ Also recorded but not used by the layout: `/sim/imu` (100 Hz, 259.2 kbit/s recor
 **Resources (E1 `resources.csv`, CPU % of one core, mean / max, RSS max):** rosbridge 14.0 / 71.7 %, 99.8 MB; recorder 22.0 / 38.0 %, 84.3 MB. Measured on a 24-core laptop, not the Jetson; the Jetson budget is TBD (Sameer + Zosia).
 
 **Speaker notes (~2 min)**
-> This is what the display costs. LichtBlick pulls about 19.4 megabits per second over Rosbridge, and almost all of that, 18.3, is the raw simulated camera. Everything else together is about 1.1. Against a placeholder 10-megabit link we'd be at nearly 200 percent. That number will change when Sabu and Robin give us the measured link, but the conclusion holds: the camera has to be compressed or throttled before it goes over the radio. For comparison, the SRR study budgeted about 1.3 megabits per second for its image option. Recording uses the team's standard ros2 bag recorder at about 149 megabytes a minute. Replay is faithful: we replayed a recording on an isolated ROS network and recorded it again, and every message came back with the same timestamps. That's what lets us review runs afterwards and train operators without the rover. Rosbridge and the recorder each used well under one CPU core on the laptop; we still need the Jetson numbers.
+> This is what the display costs. LichtBlick pulls about 19.4 megabits per second over Rosbridge, and almost all of that, 18.3, is the raw simulated camera. Everything else together is about 1.1. Against a placeholder 10-megabit link we'd be at nearly 200 percent. That number will change when Sabu and Robin give us the measured link, but the conclusion holds: the camera has to be compressed or throttled before it goes over the radio. Recording uses the team's standard ros2 bag recorder at about 149 megabytes a minute. Replay is faithful: we replayed a recording on an isolated ROS network and recorded it again, and every message came back with the same timestamps. That's what lets us review runs afterwards and train operators without the rover. Rosbridge and the recorder each used well under one CPU core on the laptop; we still need the Jetson numbers.
 
 ---
 
@@ -118,14 +118,19 @@ Also recorded but not used by the layout: `/sim/imu` (100 Hz, 259.2 kbit/s recor
 | # | Action | Owner |
 | --- | --- | --- |
 | 1 | Take screenshots #1–#8 (shot list) from the OBS run and LichtBlick, and do a visual check of the merged layout with live/replay data in the app (layout import already verified) | Gadadhar |
-| 2 | Confirm and state the reason for switching from Dear PyGui (SRR) to LichtBlick | CDH lead (TBD) |
-| 3 | Measured rover ↔ operator bandwidth/latency to replace the 10 Mbit/s placeholder (slides 6–8) | Sabu + Robin |
-| 4 | Camera compression/throttling plan (raw camera is 18.26 Mbit/s of 19.36) | Sabu + Robin, Gadadhar |
-| 5 | Real Unitree L2 LiDAR and Orbbec topic names/types/rates → `rover_only_topics.txt` and layout | Sabu + Robin |
-| 6 | Real rover dimensions for the footprint (now 0.65 × 0.45 m sim values) | Vin / Sameer + Zosia |
-| 7 | Jetson compute and storage budget (rosbridge + recorder measured only on a laptop) | Sameer + Zosia |
-| 8 | Fix `/clock` expected rate in `topics.csv` (100 → measured 500 Hz in sim) | Sabu |
-| 9 | Navigator 20 Hz timer jitter (gaps up to 0.396 s) | GNC / MAIN (TBD) |
-| 10 | Run `verify_mcap.py` on Vin's Nov 5 data and fill the slide 11 placeholder | Gadadhar + Alice |
-| 11 | Keyboard-control prototype (separate from this display-only work) | Gadadhar (later) |
-| 12 | Battery, E-stop and fault topics so those panels stop showing UNAVAILABLE | Embedded (TBD) |
+| 2 | Measured rover ↔ operator bandwidth/latency to replace the 10 Mbit/s placeholder (slides 6–8) | Sabu + Robin |
+| 3 | Camera compression/throttling plan (raw camera is 18.26 Mbit/s of 19.36) | Sabu + Robin, Gadadhar |
+| 4 | Real Unitree L2 LiDAR and Orbbec topic names/types/rates → `rover_only_topics.txt` and layout | Sabu + Robin |
+| 5 | Real rover dimensions for the footprint (now 0.65 × 0.45 m sim values) | Vin / Sameer + Zosia |
+| 6 | Jetson compute and storage budget (rosbridge + recorder measured only on a laptop) | Sameer + Zosia |
+| 7 | Fix `/clock` expected rate in `topics.csv` (100 → measured 500 Hz in sim) | Sabu |
+| 8 | Navigator 20 Hz timer jitter (gaps up to 0.396 s) | GNC / MAIN (TBD) |
+| 9 | Run `verify_mcap.py` on Vin's Nov 5 data and fill the slide 11 placeholder | Gadadhar + Alice |
+| 10 | Keyboard-control prototype (separate from this display-only work) | Gadadhar (later) |
+| 11 | Battery, E-stop and fault topics so those panels stop showing UNAVAILABLE | Embedded (TBD) |
+
+---
+
+## Backup / reference (not for the main slides)
+
+Prior-season history: the 2025-26 CDH "ROS2 Frontend Interface Study" (10/14/2025) compared SSH/CLI and Dear PyGui front ends. It is **not** this season's baseline; the 2026-27 SRR selected LichtBlick.

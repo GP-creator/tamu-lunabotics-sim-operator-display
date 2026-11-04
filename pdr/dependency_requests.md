@@ -21,5 +21,4 @@ From Gadadhar + Alice. Current numbers are SIMULATION only; sources in `pdr/evid
 ## Vin (lead)
 
 1. **Nov 5 rover recording** (MCAP), with the run type: EXISTING-ROVER MANUAL or EXISTING-ROVER AUTONOMOUS. We'll run `tools/verify_mcap.py` on it for slide 11.
-2. **Reason for switching from Dear PyGui (SRR selection) to LichtBlick**, for slide 9. Or tell us who decided.
-3. **Review of the layout in the LichtBlick app** once screenshots are ready.
+2. **Review of the layout in the LichtBlick app** once screenshots are ready.

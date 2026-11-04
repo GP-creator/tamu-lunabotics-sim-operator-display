@@ -1,8 +1,10 @@
 # Operator-display fault tests
 
+**Status: script ready, visual test PENDING** (Alice + Gadadhar, to be done together).
+
 **Label: SIMULATION.** Tool: `tools/fault_test.sh` (sim + recorder; faults at announced times; each restored).
 **Pass criterion:** the operator can recognize lost data; **a frozen value must not look live and healthy.**
-**Visual acceptance:** by Gadadhar in LichtBlick (screenshots below). Script or ROS checks alone do not count as a pass.
+**Visual acceptance:** by Alice + Gadadhar in LichtBlick (screenshots below). Script or ROS checks alone do not count as a pass.
 
 ## Layout review before testing (2026-11-04)
 

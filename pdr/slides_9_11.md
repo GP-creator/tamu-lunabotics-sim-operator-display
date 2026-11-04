@@ -85,11 +85,11 @@ The probe/LichtBlick split comes from time windows in one run (estimate). Laptop
 
 | Requirement | Observed outcome | Label | Status | Evidence |
 | --- | --- | --- | --- | --- |
-| Load layout | Merged layout imports and renders in LichtBlick 1.30.0 (desktop, Linux); validator PASS (19 panels, 12 topics); revised layout used for the PDR screenshots | SIMULATION | PASS (app import); revised layout on screen: confirm with screenshots | `pdr/evidence/LICHTBLICK_APP_layout_import_2026-11-04/`, `screenshot_manifest.md` |
+| Load layout | Merged layout imports and renders in LichtBlick 1.30.0 (desktop, Linux); validator PASS (19 panels, 12 topics); revised layout seen working in the LichtBlick web app (version unknown) in the NO PATH screenshot at 20.03 s | SIMULATION, REPLAY | PASS | `pdr/evidence/LICHTBLICK_APP_layout_import_2026-11-04/`, `screenshot_manifest.md` |
 | Connect live | LichtBlick on `ws://localhost:9090` during run 124956; all layout topics delivered at 96–99 % of recorded rate except `/clock` (87 %) | SIMULATION | PASS (data); OBS video | `E0/summary.md` live parity, OBS video |
-| Identify source / mode / freshness | CONNECTION shows `ws://…` or the `.mcap` name; DATA ORIGIN SIMULATED; health lights + Data age | SIMULATION, REPLAY | PENDING visual (fault-test baseline shot) | `pdr/evidence/fault_tests.md` |
-| Recognize lost data | Fault tests A (link lost), B (camera missing), C (stale status) | SIMULATION | PENDING visual | `pdr/evidence/fault_tests.md` |
-| Replay saved recording | MCAP replayed on isolated domain: 11 topics, 0 losses, stamps identical; opened in LichtBlick for screenshots 04–06; `record_replay.sh replay` (ros2 bag play) delivers over Rosbridge | REPLAY | PASS (data); visual: screenshots 04–06 | `E0/summary.md` replay parity, `evidence_location.md` |
+| Identify source / mode / freshness | CONNECTION shows `ws://…` or the `.mcap` name; DATA ORIGIN SIMULATED; health lights + Data age | SIMULATION, REPLAY | Script ready (`tools/fault_test.sh`), visual test PENDING | `pdr/evidence/fault_tests.md` |
+| Recognize lost data | Fault tests A (link lost), B (camera missing), C (stale status); faults verified at ROS level (camera gap 9.4 s, status gap 10.4 s) | SIMULATION | Script ready (`tools/fault_test.sh`), visual test PENDING (Alice + Gadadhar) | `pdr/evidence/fault_tests.md` |
+| Replay saved recording | MCAP replayed on isolated domain: 11 topics, 0 losses, stamps identical; opened in LichtBlick (NO PATH shown at 20.03 s of run 112151); `record_replay.sh replay` (ros2 bag play) delivers over Rosbridge | REPLAY | PASS | `E0/summary.md` replay parity, `evidence_location.md` |
 | Same five on the rover | — | EXISTING-ROVER (TBD) | **PENDING (Vin)**: same run ID for rover footage and MCAP | `evidence_location.md` |
 
 **Run metadata** (all SIMULATION; E0–E4 `summary.json`)

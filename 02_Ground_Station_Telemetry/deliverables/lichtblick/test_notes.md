@@ -83,3 +83,32 @@ Run `SIMULATED_pdr_20261104_112151` contains a real `no_observed_path` event (19
 ## Layout revision for readability (2026-11-04)
 
 Four health lights combined into one compact row under the top row; Battery/E-stop/Faults moved to the Details tab as "Rover-only (not in simulation)"; map panel enlarged (≈ 42 % of the Operator tab, was ≈ 34 %) with a top-down orthographic default view centred on the arena (3.95, 2.2) at 6 m view height; bottom row limited to three panels (timeline + two plots) with plot legends collapsed by default. Camera settings follow LichtBlick 1.30.0 `CameraStateSettings.ts` (orthographic: distance = visible height); not yet checked on screen. `tools/validate_layout.py`: **PASS** (18 panels, 3 scripts, 12 topics). Panel → topic table regenerated in `panel_topics.md`; slide figure in `pdr/figures/layout_diagram.png`.
+
+## Additional live fault verification — macOS + UTM (2026-11-06), SIMULATION
+
+Tester: Alice Choi. Client: LichtBlick on macOS (Apple Silicon). Simulation: Ubuntu 24.04 ARM64 in UTM, ROS 2 Jazzy, Gazebo Harmonic, `ROS_DOMAIN_ID=84`, `HARDWARE_ENABLED=0`. Rosbridge connected from macOS to the VM at `ws://192.168.64.3:9090` (session-specific IP). Tests used simulated data only; no rover hardware was connected.
+
+| Fault | Injection / observation | Result | Recovery |
+| --- | --- | --- | --- |
+| A — Rosbridge connection loss | Stopped the Rosbridge process while the live Operator layout was connected. LichtBlick reported a connection failure. | **PASS** — connection loss was visible to the operator. | Restarted Rosbridge; live status and camera data returned. |
+| B — Camera staleness | In a **copied test layout**, changed both the `camera_health` script input and its `event.topic` comparison from `/sim/camera/image` to `/fault_test/camera/image`. A temporary ROS 2 Python relay forwarded `/sim/camera/image` to `/fault_test/camera/image` at approximately 10 Hz. Stopping only the relay caused the camera indicator to turn red (`Camera STALE`), script output `camera: STALE`, and `camera_age_s` to rise above 2.0. | **PASS** — automatic camera-staleness warning verified in LichtBlick. | Restarted the relay; indicator returned to green (`Camera OK`), script output `camera: OK`, and `camera_age_s` fell below 2.0. |
+| C — Status staleness | Stopped the simulated navigator while other telemetry continued. `/sim/status` stopped updating; the Operator layout showed `Status STALE`, `STATUS STALE: no /sim/status for over 1 s`, and `STATE NOT CURRENT: status stale`. Camera health remained OK. | **PASS** — status-staleness warnings verified in LichtBlick. | Restarted the navigator; status returned to OK. |
+
+**Scope and limitations:** Fault B validates the camera-health script and indicator using a temporary relayed topic; it does **not** establish behavior under a physical camera hardware failure or prove that the original Image panel loses its feed, because that panel remained subscribed to `/sim/camera/image`. The relay and edited `camera_health` script were used only in the copied `Fault B Camera Test` layout; the repository's `lichtblick_layout.json` was not changed for this test. Fault A demonstrates a visible LichtBlick connection failure, not a script-generated stale warning: as noted above, script-based age checks require a continuing heartbeat. All tests were performed on simulation, not hardware.
+
+**Environment note:** This UTM setup used local compatibility files (`simulation_utm.launch.py` and `arena_utm.sdf`) to avoid the VM's Ogre2 rendering failure. These files were untracked in the local working tree at the time of testing; their inclusion in the project is a separate decision.
+
+## Additional visual acceptance checks — 2026-11-06 (SIMULATION)
+
+Visual checks performed in LichtBlick on macOS using live ROS 2/Gazebo simulation in Ubuntu ARM64/UTM.
+
+| Check | Observation | Result |
+| --- | --- | --- |
+| Plot legends | Data age and commanded speed legends were collapsed; all three bottom plots were visible. | PASS |
+| Rover-only indicators | Battery, E-stop, and Faults displayed `UNAVAILABLE (no topic)` under `Rover-only (not in simulation)`. | PASS |
+
+**Screenshot evidence:**
+- `pdr/evidence/visual_acceptance_2026-11-06/plot_legends.png`
+- `pdr/evidence/visual_acceptance_2026-11-06/rover_only_unavailable.png`
+
+The top-down map and MCAP replay were previously demonstrated in the November 4 PDR evidence and were not independently reverified as part of these additional checks.

@@ -4,7 +4,10 @@
       "followMode": "follow-pose",
       "followTf": "odom",
       "scene": {
-        "enableStats": false
+        "enableStats": false,
+        "transforms": {
+          "enablePreloading": true
+        }
       },
       "transforms": {
         "frame:odom": {
@@ -57,9 +60,9 @@
       },
       "lichtblickPanelTitle": "Map, planned path, LiDAR (SIMULATED)",
       "cameraState": {
-        "distance": 9,
-        "perspective": true,
-        "phi": 40,
+        "distance": 6.0,
+        "perspective": false,
+        "phi": 0,
         "thetaOffset": 0,
         "target": [
           0,
@@ -293,7 +296,7 @@
       "fallbackLabel": "UNAVAILABLE: no source label"
     },
     "Indicator!lidar": {
-      "lichtblickPanelTitle": "LiDAR (/sim/scan)",
+      "lichtblickPanelTitle": "LiDAR /sim/scan",
       "path": "/studio_script/mission_status.scan",
       "style": "bulb",
       "rules": [
@@ -320,7 +323,7 @@
       "fallbackLabel": "LiDAR UNAVAILABLE"
     },
     "Indicator!pose": {
-      "lichtblickPanelTitle": "Pose (/sim/odom)",
+      "lichtblickPanelTitle": "Pose /sim/odom",
       "path": "/studio_script/mission_status.pose",
       "style": "bulb",
       "rules": [
@@ -347,7 +350,7 @@
       "fallbackLabel": "Pose UNAVAILABLE"
     },
     "Indicator!camera": {
-      "lichtblickPanelTitle": "Camera (/sim/camera/image)",
+      "lichtblickPanelTitle": "Camera /sim/camera/image",
       "path": "/studio_script/camera_health.camera",
       "style": "bulb",
       "rules": [
@@ -374,7 +377,7 @@
       "fallbackLabel": "Camera UNAVAILABLE"
     },
     "Indicator!status_link": {
-      "lichtblickPanelTitle": "Status link (/sim/status)",
+      "lichtblickPanelTitle": "Status link /sim/status",
       "path": "/studio_script/mission_status.status_link",
       "style": "bulb",
       "rules": [
@@ -401,7 +404,7 @@
       "fallbackLabel": "Status UNAVAILABLE"
     },
     "Indicator!battery": {
-      "lichtblickPanelTitle": "Battery",
+      "lichtblickPanelTitle": "Rover-only (not in simulation): Battery",
       "path": "/studio_script/mission_status.battery",
       "style": "background",
       "rules": [
@@ -416,7 +419,7 @@
       "fallbackLabel": "Battery: UNAVAILABLE (no topic)"
     },
     "Indicator!estop": {
-      "lichtblickPanelTitle": "E-stop",
+      "lichtblickPanelTitle": "Rover-only (not in simulation): E-stop",
       "path": "/studio_script/mission_status.estop",
       "style": "background",
       "rules": [
@@ -431,7 +434,7 @@
       "fallbackLabel": "E-stop: UNAVAILABLE (no topic)"
     },
     "Indicator!faults": {
-      "lichtblickPanelTitle": "Faults",
+      "lichtblickPanelTitle": "Rover-only (not in simulation): Faults",
       "path": "/studio_script/mission_status.faults",
       "style": "background",
       "rules": [
@@ -479,11 +482,15 @@
         }
       ],
       "xAxisVal": "timestamp",
-      "showLegend": true,
-      "lichtblickPanelTitle": "Commanded speed (SIMULATED navigator)"
+      "showLegend": false,
+      "lichtblickPanelTitle": "Commanded speed (SIMULATED navigator)",
+      "isSynced": true,
+      "legendDisplay": "floating",
+      "showXAxisLabels": true,
+      "showYAxisLabels": true
     },
     "Plot!data_age": {
-      "lichtblickPanelTitle": "Data age (s): red warning above 0.5 s LiDAR/pose, 2 s camera",
+      "lichtblickPanelTitle": "Data age (s): limits 0.5 s LiDAR/pose, 2 s camera, 1 s status",
       "paths": [
         {
           "value": "/studio_script/mission_status.status_age_s",
@@ -513,7 +520,11 @@
       "minYValue": 0,
       "maxYValue": 3,
       "xAxisVal": "timestamp",
-      "showLegend": true
+      "showLegend": false,
+      "isSynced": true,
+      "legendDisplay": "floating",
+      "showXAxisLabels": true,
+      "showYAxisLabels": true
     },
     "RawMessagesVirtual!status": {
       "topicPath": "/sim/status",
@@ -548,71 +559,79 @@
               "direction": "column",
               "first": {
                 "direction": "row",
-                "first": "3D!scene",
-                "second": {
-                  "direction": "column",
-                  "first": "Image!camera",
-                  "second": {
-                    "direction": "column",
-                    "first": {
-                      "direction": "row",
-                      "first": "Indicator!lidar",
-                      "second": "Indicator!pose",
-                      "splitPercentage": 50
-                    },
-                    "second": {
-                      "direction": "row",
-                      "first": "Indicator!camera",
-                      "second": "Indicator!status_link",
-                      "splitPercentage": 50
-                    },
-                    "splitPercentage": 50
-                  },
-                  "splitPercentage": 68
-                },
-                "splitPercentage": 58
-              },
-              "second": {
-                "direction": "row",
-                "first": "StateTransitions!timeline",
+                "first": "SourceInfo!connection",
                 "second": {
                   "direction": "row",
-                  "first": "Plot!data_age",
+                  "first": {
+                    "direction": "row",
+                    "first": "Indicator!lidar",
+                    "second": "Indicator!pose",
+                    "splitPercentage": 50
+                  },
                   "second": {
                     "direction": "row",
-                    "first": "Plot!motion",
-                    "second": {
-                      "direction": "column",
-                      "first": "Indicator!battery",
-                      "second": {
-                        "direction": "column",
-                        "first": "Indicator!estop",
-                        "second": "Indicator!faults",
-                        "splitPercentage": 50
-                      },
-                      "splitPercentage": 33
-                    },
-                    "splitPercentage": 62
+                    "first": "Indicator!camera",
+                    "second": "Indicator!status_link",
+                    "splitPercentage": 50
                   },
-                  "splitPercentage": 40
+                  "splitPercentage": 50
                 },
-                "splitPercentage": 32
+                "splitPercentage": 24
               },
-              "splitPercentage": 70
+              "second": {
+                "direction": "column",
+                "first": {
+                  "direction": "row",
+                  "first": "3D!scene",
+                  "second": "Image!camera",
+                  "splitPercentage": 70
+                },
+                "second": {
+                  "direction": "row",
+                  "first": "StateTransitions!timeline",
+                  "second": {
+                    "direction": "row",
+                    "first": "Plot!data_age",
+                    "second": "Plot!motion",
+                    "splitPercentage": 50
+                  },
+                  "splitPercentage": 34
+                },
+                "splitPercentage": 74
+              },
+              "splitPercentage": 11
             },
-            "splitPercentage": 15
+            "splitPercentage": 11
           }
         },
         {
-          "title": "Details (raw status, source)",
+          "title": "Details (raw status, source, rover-only)",
           "layout": {
             "direction": "row",
             "first": "RawMessagesVirtual!status",
-            "second": "SourceInfo!source",
+            "second": {
+              "direction": "column",
+              "first": "SourceInfo!source",
+              "second": {
+                "direction": "column",
+                "first": "Indicator!battery",
+                "second": {
+                  "direction": "column",
+                  "first": "Indicator!estop",
+                  "second": "Indicator!faults",
+                  "splitPercentage": 50
+                },
+                "splitPercentage": 33
+              },
+              "splitPercentage": 62
+            },
             "splitPercentage": 55
           }
         }
       ]
+    },
+    "SourceInfo!connection": {
+      "lichtblickPanelTitle": "CONNECTION: source / live state (built-in)"
     }
   },
   "globalVariables": {},

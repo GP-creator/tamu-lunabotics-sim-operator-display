@@ -1,0 +1,19 @@
+# Topics in TAMU-Lunabotics/GNC-2027 (commit 52c04c2, 2026-11-03), read from source, not run.
+# Format: <topic> <type> <frame> <producer>  (WORKING interfaces per GNC docs/INTERFACES.md)
+# Lines starting with # are ignored. Only topics with a producer in GNC-2027 are listed.
+/clock                  rosgraph_msgs/msg/Clock               -          luna_sim/sim_clock.py (sim only)
+/map                    nav_msgs/msg/OccupancyGrid            map        nav2 map_server via luna_sim/launch/arena.launch.py (transient local)
+/odometry/filtered      nav_msgs/msg/Odometry                 map        luna_sim/oracle_localizer.py (sim stand-in for localization; child base_link)
+/wheel_odom             nav_msgs/msg/Odometry                 odom       luna_sim/sensors/mock_wheel_odometry.py (sim)
+/imu/data_raw           sensor_msgs/msg/Imu                   imu_link   luna_sim/sensors/mock_imu.py (sim, 50 Hz)
+/tags/markers           visualization_msgs/msg/MarkerArray    -          luna_sim/sensors/mock_tag_detector.py (sim)
+/cam_front/detections   luna_interfaces/msg/TagDetectionArray cam_front_optical  luna_sim/sensors/mock_tag_detector.py (sim, 10 Hz)
+/cam_rear/detections    luna_interfaces/msg/TagDetectionArray cam_rear_optical   luna_sim/sensors/mock_tag_detector.py (sim, 10 Hz)
+/guidance/path          nav_msgs/msg/Path                     map        luna_guidance/path_planner_node.py (transient local)
+/planning/status        luna_interfaces/msg/PlannerStatus     map        luna_guidance/path_planner_node.py (transient local)
+/guidance/status        luna_interfaces/msg/GuidanceStatus    -          luna_guidance/guidance_controller_node.py (transient local)
+/guidance/collision_arc nav_msgs/msg/Path                     map        luna_guidance/guidance_controller_node.py (debug)
+/guidance/lookahead     geometry_msgs/msg/PointStamped        map        luna_guidance/guidance_controller_node.py (debug)
+/cmd_vel                geometry_msgs/msg/TwistStamped        base_link  luna_guidance/guidance_controller_node.py (display only here)
+/tf                     tf2_msgs/msg/TFMessage                -          oracle_localizer (odom->base_link), robot_state_publisher
+/tf_static              tf2_msgs/msg/TFMessage                -          oracle_localizer (map->odom), robot_state_publisher

@@ -1,0 +1,19 @@
+[11:57:22] Starting simulation (headless=0). Log: /home/gadhai3/lunabotics_recordings/SIMULATED_pdr_20261104_115721_logs/simulation.log
+[11:57:24] Rosbridge listening on ws://localhost:9090
+[11:57:26] publishing: /clock
+[11:57:27] publishing: /tf
+[11:57:27] publishing: /sim/status
+[11:57:27] publishing: /sim/scan
+[11:57:27] publishing: /sim/odom
+[11:57:27] publishing: /sim/camera/image
+
+[1;97;44m ==== [2026-11-04 11:57:27] SIM UP  (Rosbridge ws://localhost:9090, key topics publishing) ==== [0m
+
+[1;97;44m ==== [2026-11-04 11:57:27] RECORDING  (since 11:57:22) -> /home/gadhai3/lunabotics_recordings/SIMULATED_pdr_20261104_115721 ==== [0m
+
+[1;97;44m ==== [2026-11-04 11:58:03] GOAL REACHED  (navigator state: complete) ==== [0m
+[11:58:03] Recording 5 s more so the final state is in the file
+[11:58:07] recorder stopped (Ctrl+C)
+[11:58:10] simulation stopped (Ctrl+C)
+
+[1;97;44m ==== [2026-11-04 11:58:11] STOPPED ==== [0m

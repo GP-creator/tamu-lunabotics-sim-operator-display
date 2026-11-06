@@ -1,0 +1,22 @@
+[12:50:01] Starting simulation (headless=0). Log: /home/gadhai3/lunabotics_recordings/SIMULATED_pdr_20261104_124956_logs/simulation.log
+[12:50:03] Rosbridge listening on ws://localhost:9090
+[12:50:07] publishing: /clock
+[12:50:07] publishing: /tf
+[12:50:07] publishing: /sim/status
+[12:50:07] publishing: /sim/scan
+[12:50:07] publishing: /sim/odom
+[12:50:07] publishing: /sim/camera/image
+
+[1;97;44m ==== [2026-11-04 12:50:07] SIM UP  (Rosbridge ws://localhost:9090, key topics publishing) ==== [0m
+
+[1;97;44m ==== [2026-11-04 12:50:07] RECORDING  (since 12:50:01) -> /home/gadhai3/lunabotics_recordings/SIMULATED_pdr_20261104_124956 ==== [0m
+[12:50:17] Rosbridge bandwidth measured (/home/gadhai3/lunabotics_recordings/SIMULATED_pdr_20261104_124956_logs/rosbridge_bandwidth.json)
+
+[1;97;44m ==== [2026-11-04 12:50:42] GOAL REACHED  (navigator state: complete) ==== [0m
+[12:50:42] Recording 5 s more so the final state is in the file
+[12:50:48] recorder stopped (Ctrl+C)
+[12:50:49] simulation stopped (Ctrl+C)
+
+[1;97;44m ==== [2026-11-04 12:50:50] STOPPED ==== [0m
+
+[1;97;44m ==== [2026-11-04 12:50:50] MCAP SAVED  /home/gadhai3/lunabotics_recordings/SIMULATED_pdr_20261104_124956/SIMULATED_pdr_20261104_124956_0.mcap  (102M) ==== [0m

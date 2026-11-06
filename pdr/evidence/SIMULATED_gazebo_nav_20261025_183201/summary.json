@@ -1,0 +1,566 @@
+{
+  "run_name": "SIMULATED_gazebo_nav_20261025_183201",
+  "label": "SIMULATION",
+  "recording": "/home/gadhai3/lunabotics_recordings/SIMULATED_gazebo_nav_20261025_183201",
+  "files": [
+    "/home/gadhai3/lunabotics_recordings/SIMULATED_gazebo_nav_20261025_183201/SIMULATED_gazebo_nav_20261025_183201_0.mcap"
+  ],
+  "recording_stats": {
+    "duration_s": 63.862,
+    "file_size_mb": 158.422761,
+    "mb_per_min": 148.84227960289374,
+    "compression": "none",
+    "message_count": 46775,
+    "topic_count": 12,
+    "payload_mbit_per_s": 19.55225354671009,
+    "start_ns": 6000000,
+    "end_ns": 63868000000,
+    "time_base": "simulation time (starts near 0)"
+  },
+  "topics": {
+    "/clock": {
+      "schema": "rosgraph_msgs/msg/Clock",
+      "encoding": "cdr",
+      "count": 31931,
+      "bytes": 383172,
+      "first_s": 0.002,
+      "last_s": 63.862,
+      "mean_rate_hz": 500.0,
+      "min_gap_s": 0.0,
+      "max_gap_s": 0.008,
+      "expected_rate_hz": 100.0,
+      "gap_limit_s": 0.03,
+      "long_gaps": [],
+      "checks": {
+        "present": true,
+        "rate_within_20pct": false,
+        "no_gap_over_3x_period": true
+      },
+      "passed": false,
+      "kbit_per_s": 48.0,
+      "frame_id": null
+    },
+    "/sim/camera/camera_info": {
+      "schema": "sensor_msgs/msg/CameraInfo",
+      "encoding": "cdr",
+      "count": 639,
+      "bytes": 235152,
+      "first_s": 0.0,
+      "last_s": 63.804,
+      "mean_rate_hz": 9.999373080057676,
+      "min_gap_s": 0.096,
+      "max_gap_s": 0.104,
+      "expected_rate_hz": 10.0,
+      "gap_limit_s": 0.3,
+      "long_gaps": [],
+      "checks": {
+        "present": true,
+        "rate_within_20pct": true,
+        "no_gap_over_3x_period": true
+      },
+      "passed": true,
+      "kbit_per_s": 29.45751777269738,
+      "frame_id": "camera_link"
+    },
+    "/sim/camera/image": {
+      "schema": "sensor_msgs/msg/Image",
+      "encoding": "cdr",
+      "count": 639,
+      "bytes": 147261384,
+      "first_s": 0.0,
+      "last_s": 63.82,
+      "mean_rate_hz": 9.996866186148543,
+      "min_gap_s": 0.03,
+      "max_gap_s": 0.194,
+      "expected_rate_hz": 10.0,
+      "gap_limit_s": 0.3,
+      "long_gaps": [],
+      "checks": {
+        "present": true,
+        "rate_within_20pct": true,
+        "no_gap_over_3x_period": true
+      },
+      "passed": true,
+      "kbit_per_s": 18447.45031474116,
+      "frame_id": "camera_link"
+    },
+    "/sim/cmd_vel": {
+      "schema": "geometry_msgs/msg/Twist",
+      "encoding": "cdr",
+      "count": 1263,
+      "bytes": 65676,
+      "first_s": 0.046,
+      "last_s": 63.844,
+      "mean_rate_hz": 19.78118436314618,
+      "min_gap_s": 0.002,
+      "max_gap_s": 0.242,
+      "expected_rate_hz": 20.0,
+      "gap_limit_s": 0.15,
+      "long_gaps": [
+        {
+          "at_s": 0.194,
+          "gap_s": 0.19
+        },
+        {
+          "at_s": 0.446,
+          "gap_s": 0.242
+        },
+        {
+          "at_s": 0.688,
+          "gap_s": 0.176
+        },
+        {
+          "at_s": 0.864,
+          "gap_s": 0.172
+        },
+        {
+          "at_s": 1.036,
+          "gap_s": 0.206
+        },
+        {
+          "at_s": 1.244,
+          "gap_s": 0.16
+        }
+      ],
+      "checks": {
+        "present": true,
+        "rate_within_20pct": true,
+        "no_gap_over_3x_period": false
+      },
+      "passed": false,
+      "kbit_per_s": 8.227239986220287,
+      "frame_id": null
+    },
+    "/sim/imu": {
+      "schema": "sensor_msgs/msg/Imu",
+      "encoding": "cdr",
+      "count": 6386,
+      "bytes": 2069064,
+      "first_s": 0.004,
+      "last_s": 63.854,
+      "mean_rate_hz": 100.0,
+      "min_gap_s": 0.008,
+      "max_gap_s": 0.012,
+      "expected_rate_hz": 100.0,
+      "gap_limit_s": 0.03,
+      "long_gaps": [],
+      "checks": {
+        "present": true,
+        "rate_within_20pct": true,
+        "no_gap_over_3x_period": true
+      },
+      "passed": true,
+      "kbit_per_s": 259.19188249663335,
+      "frame_id": "imu_link"
+    },
+    "/sim/obstacle_grid": {
+      "schema": "nav_msgs/msg/OccupancyGrid",
+      "encoding": "cdr",
+      "count": 128,
+      "bytes": 458240,
+      "first_s": 0.048,
+      "last_s": 63.796,
+      "mean_rate_hz": 1.992219363744745,
+      "min_gap_s": 0.38,
+      "max_gap_s": 0.818,
+      "expected_rate_hz": 2.0,
+      "gap_limit_s": 1.5,
+      "long_gaps": [],
+      "checks": {
+        "present": true,
+        "rate_within_20pct": true,
+        "no_gap_over_3x_period": true
+      },
+      "passed": true,
+      "kbit_per_s": 57.40377689392753,
+      "frame_id": "odom"
+    },
+    "/sim/odom": {
+      "schema": "nav_msgs/msg/Odometry",
+      "encoding": "cdr",
+      "count": 1878,
+      "bytes": 1359672,
+      "first_s": 0.028,
+      "last_s": 63.846,
+      "mean_rate_hz": 29.411764705882355,
+      "min_gap_s": 0.03,
+      "max_gap_s": 0.038,
+      "expected_rate_hz": 30.0,
+      "gap_limit_s": 0.1,
+      "long_gaps": [],
+      "checks": {
+        "present": true,
+        "rate_within_20pct": true,
+        "no_gap_over_3x_period": true
+      },
+      "passed": true,
+      "kbit_per_s": 170.3262660110864,
+      "frame_id": "odom"
+    },
+    "/sim/planned_path": {
+      "schema": "nav_msgs/msg/Path",
+      "encoding": "cdr",
+      "count": 128,
+      "bytes": 12784,
+      "first_s": 0.046,
+      "last_s": 63.794,
+      "mean_rate_hz": 1.992219363744745,
+      "min_gap_s": 0.38,
+      "max_gap_s": 0.818,
+      "expected_rate_hz": 2.0,
+      "gap_limit_s": 1.5,
+      "long_gaps": [],
+      "checks": {
+        "present": true,
+        "rate_within_20pct": true,
+        "no_gap_over_3x_period": true
+      },
+      "passed": true,
+      "kbit_per_s": 1.6014531333187185,
+      "frame_id": "odom"
+    },
+    "/sim/scan": {
+      "schema": "sensor_msgs/msg/LaserScan",
+      "encoding": "cdr",
+      "count": 639,
+      "bytes": 3721536,
+      "first_s": 0.0,
+      "last_s": 63.85,
+      "mean_rate_hz": 9.99216914643696,
+      "min_gap_s": 0.06,
+      "max_gap_s": 0.194,
+      "expected_rate_hz": 10.0,
+      "gap_limit_s": 0.3,
+      "long_gaps": [],
+      "checks": {
+        "present": true,
+        "rate_within_20pct": true,
+        "no_gap_over_3x_period": true
+      },
+      "passed": true,
+      "kbit_per_s": 466.1972377939933,
+      "frame_id": "base_scan"
+    },
+    "/sim/status": {
+      "schema": "std_msgs/msg/String",
+      "encoding": "cdr",
+      "count": 1263,
+      "bytes": 325948,
+      "first_s": 0.046,
+      "last_s": 63.844,
+      "mean_rate_hz": 19.78118436314618,
+      "min_gap_s": 0.0,
+      "max_gap_s": 0.24,
+      "expected_rate_hz": 20.0,
+      "gap_limit_s": 0.15,
+      "long_gaps": [
+        {
+          "at_s": 0.194,
+          "gap_s": 0.192
+        },
+        {
+          "at_s": 0.448,
+          "gap_s": 0.24
+        },
+        {
+          "at_s": 0.688,
+          "gap_s": 0.176
+        },
+        {
+          "at_s": 0.864,
+          "gap_s": 0.172
+        },
+        {
+          "at_s": 1.036,
+          "gap_s": 0.208
+        },
+        {
+          "at_s": 1.244,
+          "gap_s": 0.16
+        }
+      ],
+      "checks": {
+        "present": true,
+        "rate_within_20pct": true,
+        "no_gap_over_3x_period": false
+      },
+      "passed": false,
+      "kbit_per_s": 40.83154301462528,
+      "frame_id": null
+    },
+    "/tf": {
+      "schema": "tf2_msgs/msg/TFMessage",
+      "encoding": "cdr",
+      "count": 1878,
+      "bytes": 187800,
+      "first_s": 0.028,
+      "last_s": 63.846,
+      "mean_rate_hz": 29.411764705882355,
+      "min_gap_s": 0.03,
+      "max_gap_s": 0.038,
+      "expected_rate_hz": null,
+      "note": "no expected rate configured; rate not checked",
+      "gap_limit_s": 0.10200000000000001,
+      "long_gaps": [],
+      "gap_limit_basis": "3x median period (informational)",
+      "checks": {
+        "present": true
+      },
+      "passed": true,
+      "kbit_per_s": 23.525727349597567,
+      "frame_id": null
+    },
+    "/tf_static": {
+      "schema": "tf2_msgs/msg/TFMessage",
+      "encoding": "cdr",
+      "count": 3,
+      "bytes": 324,
+      "first_s": 0.0,
+      "last_s": 0.0,
+      "mean_rate_hz": null,
+      "min_gap_s": 0.0,
+      "max_gap_s": 0.0,
+      "expected_rate_hz": null,
+      "note": "latched (published once); no rate check",
+      "checks": {
+        "present": true
+      },
+      "passed": true,
+      "kbit_per_s": 0.04058751683317153,
+      "frame_id": null
+    }
+  },
+  "layout_coverage": {
+    "layout": "/home/gadhai3/lunabotics/tamu-lunabotics-sim-operator-display/02_Ground_Station_Telemetry/deliverables/lichtblick/lichtblick_layout.json",
+    "required": 10,
+    "present": 10,
+    "missing": [],
+    "percent": 100.0
+  },
+  "tf_clock": {
+    "/clock": {
+      "messages": 31931,
+      "monotonic": true,
+      "backwards_steps": 0,
+      "first_s": 0.008,
+      "last_s": 63.868,
+      "max_abs_log_minus_clock_s": 0.006000000000000227
+    },
+    "tf": {
+      "edges": {
+        "base_link": [
+          "odom"
+        ],
+        "base_scan": [
+          "base_link"
+        ],
+        "camera_link": [
+          "base_link"
+        ],
+        "imu_link": [
+          "base_link"
+        ]
+      },
+      "frames_with_multiple_parents": {},
+      "message_frames": {
+        "/sim/camera/camera_info": {
+          "frame": "camera_link",
+          "tf_root": "odom",
+          "loop": false
+        },
+        "/sim/camera/image": {
+          "frame": "camera_link",
+          "tf_root": "odom",
+          "loop": false
+        },
+        "/sim/scan": {
+          "frame": "base_scan",
+          "tf_root": "odom",
+          "loop": false
+        },
+        "/sim/imu": {
+          "frame": "imu_link",
+          "tf_root": "odom",
+          "loop": false
+        },
+        "/sim/odom": {
+          "frame": "odom",
+          "tf_root": "odom",
+          "loop": false
+        },
+        "/sim/planned_path": {
+          "frame": "odom",
+          "tf_root": "odom",
+          "loop": false
+        },
+        "/sim/obstacle_grid": {
+          "frame": "odom",
+          "tf_root": "odom",
+          "loop": false
+        }
+      },
+      "common_root": "odom",
+      "all_message_frames_connected": true
+    },
+    "passed": true
+  },
+  "status_timeline": {
+    "topic": "/sim/status",
+    "source": "gazebo_simulation",
+    "goal": [
+      6.4,
+      3.1
+    ],
+    "transitions": [
+      {
+        "at_s": 0.046,
+        "state": "waiting_for_sensors"
+      },
+      {
+        "at_s": 0.386,
+        "state": "navigating"
+      },
+      {
+        "at_s": 1.244,
+        "state": "waiting_for_sensors"
+      },
+      {
+        "at_s": 1.404,
+        "state": "navigating"
+      },
+      {
+        "at_s": 37.094,
+        "state": "complete"
+      }
+    ],
+    "goal_reached": true
+  },
+  "path": {
+    "odom_topic": "/sim/odom",
+    "path_topic": "/sim/planned_path",
+    "odom_frame": "odom",
+    "distance_travelled_m": 5.662176014500644,
+    "odom_samples": 1878,
+    "planned_path_updates": 72
+  },
+  "live_parity": null,
+  "replay_parity": {
+    "ran": true,
+    "method": "ros2 bag play on isolated ROS_DOMAIN_ID=85, re-recorded with ros2 bag record",
+    "criteria": "all topics replayed; header stamps identical; header topics lose no messages except within 1 s of either end; header-less topics keep >= 99 % of messages",
+    "topics": {
+      "/clock": {
+        "original": 31931,
+        "replayed": 31931,
+        "count_ratio": 1.0,
+        "header_stamps_preserved_fraction": null
+      },
+      "/sim/camera/camera_info": {
+        "original": 639,
+        "replayed": 639,
+        "count_ratio": 1.0,
+        "header_stamps_preserved_fraction": 1.0,
+        "missing_at_edges": 0,
+        "missing_interior": 0
+      },
+      "/sim/camera/image": {
+        "original": 639,
+        "replayed": 639,
+        "count_ratio": 1.0,
+        "header_stamps_preserved_fraction": 1.0,
+        "missing_at_edges": 0,
+        "missing_interior": 0
+      },
+      "/sim/cmd_vel": {
+        "original": 1263,
+        "replayed": 1263,
+        "count_ratio": 1.0,
+        "header_stamps_preserved_fraction": null
+      },
+      "/sim/imu": {
+        "original": 6386,
+        "replayed": 6386,
+        "count_ratio": 1.0,
+        "header_stamps_preserved_fraction": 1.0,
+        "missing_at_edges": 0,
+        "missing_interior": 0
+      },
+      "/sim/obstacle_grid": {
+        "original": 128,
+        "replayed": 128,
+        "count_ratio": 1.0,
+        "header_stamps_preserved_fraction": 1.0,
+        "missing_at_edges": 0,
+        "missing_interior": 0
+      },
+      "/sim/odom": {
+        "original": 1878,
+        "replayed": 1878,
+        "count_ratio": 1.0,
+        "header_stamps_preserved_fraction": 1.0,
+        "missing_at_edges": 0,
+        "missing_interior": 0
+      },
+      "/sim/planned_path": {
+        "original": 128,
+        "replayed": 128,
+        "count_ratio": 1.0,
+        "header_stamps_preserved_fraction": 1.0,
+        "missing_at_edges": 0,
+        "missing_interior": 0
+      },
+      "/sim/scan": {
+        "original": 639,
+        "replayed": 639,
+        "count_ratio": 1.0,
+        "header_stamps_preserved_fraction": 1.0,
+        "missing_at_edges": 0,
+        "missing_interior": 0
+      },
+      "/sim/status": {
+        "original": 1263,
+        "replayed": 1263,
+        "count_ratio": 1.0,
+        "header_stamps_preserved_fraction": null
+      },
+      "/tf": {
+        "original": 1878,
+        "replayed": 1878,
+        "count_ratio": 1.0,
+        "header_stamps_preserved_fraction": null
+      }
+    },
+    "same_topics": true,
+    "header_stamps_preserved": true,
+    "no_interior_losses": true,
+    "headerless_counts_ok": true,
+    "passed": true
+  },
+  "resources": null,
+  "margins": {
+    "required_mbit_per_s": null,
+    "assumed_link_mbit_per_s": 10.0,
+    "margin_mbit_per_s": null,
+    "utilisation_pct": null,
+    "placeholder": true
+  },
+  "link_budget_file": "/home/gadhai3/lunabotics/tamu-lunabotics-sim-operator-display/pdr/link_budget.json",
+  "thresholds": {
+    "rate_tolerance": 0.2,
+    "gap_factor": 3.0
+  },
+  "checks": {
+    "all_topics_pass": false,
+    "layout_coverage_100pct": true,
+    "tf_and_clock_ok": true,
+    "replay_parity": true
+  },
+  "passed": false,
+  "plots": [
+    "topic_rates.png",
+    "xy_path.png",
+    "bandwidth_per_topic.png",
+    "gap_timeline.png"
+  ],
+  "mcap_cli": "mcap CLI not on PATH; skipped (Python mcap library used instead)"
+}

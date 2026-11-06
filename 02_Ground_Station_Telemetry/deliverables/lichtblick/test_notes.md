@@ -34,9 +34,34 @@ Date: 2026-10-25. Tester: Gadadhar. **All data simulated (Gazebo). No rover hard
 | 6 | Fault cases (injected into the test feed only) | Status stops; camera stops; camera never publishes; seek backwards; obstacle_stop, no_observed_path, invalid_clock, paused, scan stale, pose missing, unlabelled source, unreadable JSON; `/tf` only | **Pass**: each shows the matching warning or UNAVAILABLE; status stale detected 0.98 s after last message; camera stale after 1.93 s; no negative ages after seek |
 | 7 | Indicator rules cover all values | Navigator states taken from `simulation_navigation.py`; warning codes from the script | **Pass** |
 | 8 | Live through Rosbridge | Subscribed to every layout topic at `ws://localhost:9090` with `cbor-raw` (as LichtBlick does) for 8 s | **Pass**: status 19.8/s, cmd_vel 19.9/s, odom 29.1/s, tf 28.9/s, camera 9.9/s, camera_info 10.0/s, scan 9.9/s, grid 1.9/s, path 1.9/s, tf_static latched. 0 new Rosbridge errors |
-| 9 | Opens in the LichtBlick app | **Not yet done.** LichtBlick is not installed in WSL. Gadadhar to check on Windows with the screenshots in `screenshots/TO_CAPTURE.md` | Pending |
+| 9 | Opens in the LichtBlick app | 2026-11-04: merged layout imported via **View → Import layout from file…** in the LichtBlick 1.30.0 Linux build (SHA-256-verified `.deb`, WSLg, software WebGL) | **Partly done**: imports and renders; with no data every panel shows UNAVAILABLE (`pdr/evidence/LICHTBLICK_APP_layout_import_2026-11-04/`). With live/replay data: pending (Gadadhar, `pdr/shot_list.md`) |
 
 Tests 4–6 run the scripts in Node, not inside LichtBlick. LichtBlick also checks script return types (no unions or nested type literals); the scripts follow those rules, but only test 9 confirms it.
+
+## Second environment: Alice Choi's live test (2026-11-01), SIMULATION
+
+From Alice's PR #4 notes, merged here (her full results: `pdr/merge_review.md`, screenshot in `pdr/evidence/SIMULATION_alice_live_2026-11-01/`). She tested **her five-panel layout**, not the merged one.
+
+| Item | Value |
+| --- | --- |
+| Client | LichtBlick 1.30.0 on macOS (Apple Silicon) |
+| Sim | Ubuntu 24.04 ARM64 in UTM, ROS 2 Jazzy, Gazebo Harmonic, domain 84, `HARDWARE_ENABLED=0` |
+| Connection | Rosbridge at the VM's address (`ws://192.168.64.3:9090`, session-specific) |
+| Passed | Rosbridge connect; camera image; `/sim/status` (`gazebo_simulation`, `complete`); `/sim/scan` 720 ranges in `base_scan`; `tf2_echo base_link base_scan` = (0, 0, 0.42); 3D panel after reconnect |
+| Issue | 3D panel first showed `Missing transform from frame <base_scan> to frame <base_link>`; reconnecting Rosbridge cleared it. Cause not confirmed |
+| Workarounds | Ogre2/EGL crash on the VM; she used temporary Ogre world/launch files under `/tmp` (not committed). The standard launch was not validated end-to-end on that VM |
+
+## After the merge (2026-11-04)
+
+`tools/validate_layout.py` on the merged layout: **PASS** (18 panels, 3 scripts, 12 topics; no orphans or unknown topics). Changes from Alice: TF preloading on the 3D panel, synced plot axes with floating legends, troubleshooting text.
+
+## PDR verification (2026-11-04), SIMULATION
+
+Four recordings checked with `tools/verify_mcap.py`; full results in `pdr/evidence/` and summarised in `pdr/slides_9_11.md`. All four: layout coverage 100 %, TF tree connected, clock monotonic; live-vs-recording and replay parity PASS where run. Overall FAIL on two real findings:
+- `/clock` publishes at 500 Hz; `topics.csv` says 100 Hz.
+- Navigator `/sim/cmd_vel` and `/sim/status` gaps up to 0.396 s (20 Hz expected), mostly at start-up; below the display's 1 s stale threshold.
+
+Run `SIMULATED_pdr_20261104_112151` contains a real `no_observed_path` event (19.9–20.2 s) that drives the NO PATH warning. Live Rosbridge load for the layout: 19.36 Mbit/s, 18.26 of it the raw camera.
 
 ## Known gaps and observations
 
@@ -54,3 +79,36 @@ Tests 4–6 run the scripts in Node, not inside LichtBlick. LichtBlick also chec
 12. **Recording is 63.9 s**, slightly over the 60 s target, because the recorder ran 65 s from sim start.
 13. **3D camera angle and colours** were set from source defaults, not seen on screen; adjust during test 9 if needed.
 14. The Gazebo log prints `gz_frame_id … not defined in SDF` warnings for the three sensors; frames still come through correctly (`base_scan`, `camera_link`, `imu_link`).
+
+## Layout revision for readability (2026-11-04)
+
+Four health lights combined into one compact row under the top row; Battery/E-stop/Faults moved to the Details tab as "Rover-only (not in simulation)"; map panel enlarged (≈ 42 % of the Operator tab, was ≈ 34 %) with a top-down orthographic default view centred on the arena (3.95, 2.2) at 6 m view height; bottom row limited to three panels (timeline + two plots) with plot legends collapsed by default. Camera settings follow LichtBlick 1.30.0 `CameraStateSettings.ts` (orthographic: distance = visible height); not yet checked on screen. `tools/validate_layout.py`: **PASS** (18 panels, 3 scripts, 12 topics). Panel → topic table regenerated in `panel_topics.md`; slide figure in `pdr/figures/layout_diagram.png`.
+
+## Additional live fault verification — macOS + UTM (2026-11-06), SIMULATION
+
+Tester: Alice Choi. Client: LichtBlick on macOS (Apple Silicon). Simulation: Ubuntu 24.04 ARM64 in UTM, ROS 2 Jazzy, Gazebo Harmonic, `ROS_DOMAIN_ID=84`, `HARDWARE_ENABLED=0`. Rosbridge connected from macOS to the VM at `ws://192.168.64.3:9090` (session-specific IP). Tests used simulated data only; no rover hardware was connected.
+
+| Fault | Injection / observation | Result | Recovery |
+| --- | --- | --- | --- |
+| A — Rosbridge connection loss | Stopped the Rosbridge process while the live Operator layout was connected. LichtBlick reported a connection failure. | **PASS** — connection loss was visible to the operator. | Restarted Rosbridge; live status and camera data returned. |
+| B — Camera staleness | In a **copied test layout**, changed both the `camera_health` script input and its `event.topic` comparison from `/sim/camera/image` to `/fault_test/camera/image`. A temporary ROS 2 Python relay forwarded `/sim/camera/image` to `/fault_test/camera/image` at approximately 10 Hz. Stopping only the relay caused the camera indicator to turn red (`Camera STALE`), script output `camera: STALE`, and `camera_age_s` to rise above 2.0. | **PASS** — automatic camera-staleness warning verified in LichtBlick. | Restarted the relay; indicator returned to green (`Camera OK`), script output `camera: OK`, and `camera_age_s` fell below 2.0. |
+| C — Status staleness | Stopped the simulated navigator while other telemetry continued. `/sim/status` stopped updating; the Operator layout showed `Status STALE`, `STATUS STALE: no /sim/status for over 1 s`, and `STATE NOT CURRENT: status stale`. Camera health remained OK. | **PASS** — status-staleness warnings verified in LichtBlick. | Restarted the navigator; status returned to OK. |
+
+**Scope and limitations:** Fault B validates the camera-health script and indicator using a temporary relayed topic; it does **not** establish behavior under a physical camera hardware failure or prove that the original Image panel loses its feed, because that panel remained subscribed to `/sim/camera/image`. The relay and edited `camera_health` script were used only in the copied `Fault B Camera Test` layout; the repository's `lichtblick_layout.json` was not changed for this test. Fault A demonstrates a visible LichtBlick connection failure, not a script-generated stale warning: as noted above, script-based age checks require a continuing heartbeat. All tests were performed on simulation, not hardware.
+
+**Environment note:** This UTM setup used local compatibility files (`simulation_utm.launch.py` and `arena_utm.sdf`) to avoid the VM's Ogre2 rendering failure. These files were untracked in the local working tree at the time of testing; their inclusion in the project is a separate decision.
+
+## Additional visual acceptance checks — 2026-11-06 (SIMULATION)
+
+Visual checks performed in LichtBlick on macOS using live ROS 2/Gazebo simulation in Ubuntu ARM64/UTM.
+
+| Check | Observation | Result |
+| --- | --- | --- |
+| Plot legends | Data age and commanded speed legends were collapsed; all three bottom plots were visible. | PASS |
+| Rover-only indicators | Battery, E-stop, and Faults displayed `UNAVAILABLE (no topic)` under `Rover-only (not in simulation)`. | PASS |
+
+**Screenshot evidence:**
+- `pdr/evidence/visual_acceptance_2026-11-06/plot_legends.png`
+- `pdr/evidence/visual_acceptance_2026-11-06/rover_only_unavailable.png`
+
+The top-down map and MCAP replay were previously demonstrated in the November 4 PDR evidence and were not independently reverified as part of these additional checks.

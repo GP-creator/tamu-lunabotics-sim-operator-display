@@ -1,0 +1,19 @@
+# Environment for the 2026-11-04 SIMULATION runs (captured 2026-11-04T11:48:16-06:00)
+os: Ubuntu 24.04.5 LTS
+kernel: 6.18.33.2-microsoft-standard-WSL2
+cpu_cores: 24
+lichtblick: 1.30.0 (MAIN/dependency-lock.json); linux-amd64 .deb SHA-256 verified by tools/download_lichtblick.py; layout imported in the 1.30.0 app on 2026-11-04
+## dpkg versions
+ros-jazzy-gz-sim-vendor	0.0.13-1noble.20260905.073557
+ros-jazzy-ros-base	0.11.0-1noble.20261006.035407
+ros-jazzy-ros-gz-bridge	1.0.24-1noble.20260920.234644
+ros-jazzy-ros-gz-sim	1.0.24-1noble.20261006.035056
+ros-jazzy-rosbag2	0.26.11-1noble.20261006.034645
+ros-jazzy-rosbag2-storage-mcap	0.26.11-1noble.20260911.143733
+ros-jazzy-rosbridge-server	2.7.1-1noble.20261006.035306
+## python (verification venv)
+matplotlib                           3.6.3
+mcap                                 1.2.2
+mcap-ros2-support                    0.5.5
+numpy                                1.26.4
+psutil                               5.9.8

@@ -150,7 +150,7 @@ The probe/LichtBlick split comes from time windows in one run (estimate). Laptop
 | --- | --- | --- |
 | 1 | Capture the screenshots in `pdr/screenshot_manifest.md` (replay shots from Steps 2–5 and OBS frames) and confirm the revised layout's top-down map and collapsed legends on screen | Gadadhar |
 | 2 | Measured rover ↔ operator bandwidth/latency to replace the 10 Mbit/s placeholder (slides 6–8) | Sabu + Robin |
-| 3 | Camera compression/throttling plan (raw camera is 18.07 Mbit/s of 19.15 in E0) | Sabu + Robin, Gadadhar |
+| 3 | Finalize camera compression/throttling for the rover. Nov 6 simulation test reduced camera output from ~10 to ~5 FPS and measured VM network traffic by 46.7%; moving-rover testing and real-link validation remain pending. See `pdr/evidence/camera_performance.md`. | Sabu + Robin, Gadadhar + Alice |
 | 4 | Real Unitree L2 LiDAR and Orbbec topic names/types/rates → `rover_only_topics.txt` and layout | Sabu + Robin |
 | 5 | Real rover dimensions for the footprint (now 0.65 × 0.45 m sim values) | Vin / Sameer + Zosia |
 | 6 | Jetson compute and storage budget (rosbridge + recorder measured only on a laptop) | Sameer + Zosia |
